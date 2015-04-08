@@ -33,12 +33,12 @@ public class ZipUtils {
 	public void addFileToZip(File fileName) throws IOException {
 		ZipEntry zipEntry = new ZipEntry(fileName.getName());
 		zipOutput.putNextEntry(zipEntry);
-		FileInputStream in = new FileInputStream(fileName);
-    		int len;
-    		while ((len = in.read(buffer)) > 0) {
-    			zipOutput.write(buffer, 0, len);
-    		}
-    		in.close();
+		try (FileInputStream in = new FileInputStream(fileName)) {
+			int len;
+			while ((len = in.read(buffer)) > 0) {
+				zipOutput.write(buffer, 0, len);
+			}
+		}
 		zipOutput.closeEntry();
 	}
 	
