@@ -13,6 +13,8 @@ package com.scytl.javakeystore.main;
 
 import com.scytl.javakeystore.pojo.KeyStoreUtils;
 import com.scytl.javakeystore.pojo.ZipUtils;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
@@ -22,6 +24,7 @@ import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.FileUtils;
 
 public class Main {
 
@@ -71,13 +74,21 @@ public class Main {
 		System.out.println("Document signature is valid: " + keystore.verifySign(loremIpsum, documentSignature, publicKeys.get(0)));
 
 		// Save document and signature to ZIP
-		zipUtil = new ZipUtils("ZipFiles");
-		zipUtil.addFileToZip(keyStorePath);
+		zipUtil = new ZipUtils("output");
+		zipUtil.addFileToZip(new File("src/main/resources/lorem_ipsum.txt"));
+		File signatureFile = new File("target/lorem_ipsum.txt.sig");
+		writeTextToFile(Hex.encodeHexString(documentSignature), signatureFile);
+		zipUtil.addFileToZip(signatureFile);
+		zipUtil.closeZip();
 		System.exit(0);
 	}
 
 	private static String readTextFile(String fileName) throws UnsupportedEncodingException, IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(fileName));
 		return new String(encoded, "UTF8");
+	}
+	
+	private static void writeTextToFile(String text, File fileName) throws FileNotFoundException, IOException {
+		FileUtils.writeStringToFile(fileName, text);
 	}
 }
