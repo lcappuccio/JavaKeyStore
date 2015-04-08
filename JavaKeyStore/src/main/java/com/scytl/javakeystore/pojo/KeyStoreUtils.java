@@ -109,7 +109,6 @@ public class KeyStoreUtils {
 	 * @throws Exception
 	 */
 	public byte[] getSignature(String document, PrivateKey privateKey) throws Exception {
-		signature = Signature.getInstance("SHA512withRSA");
 		signature.initSign(privateKey);
 		signature.update(document.getBytes());
 		return signature.sign();
