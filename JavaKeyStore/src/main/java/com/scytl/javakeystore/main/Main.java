@@ -59,16 +59,15 @@ public class Main {
 		System.out.println(loremIpsum);
 		
 		// Sign with the first certificate
-		System.out.println("\n*** SIGNED DOCUMENT ***");
-		byte[] signedDocument = keystore.signDocument(loremIpsum, privateKey);
-		System.out.println(new String(signedDocument, "UTF8"));
+		System.out.println("\n*** SIGNATURE ***");
+		byte[] documentSignature = keystore.signDocument(loremIpsum, privateKey);
+		System.out.println(new String(documentSignature, "UTF8"));
 		
 		// Verify signature
 		System.out.println("\n*** VERIFY SIGNATURE ***");
-		System.out.println("Document signature is valid: " + keystore.verifySign(loremIpsum, signedDocument, publicKeys.get(0)));
+		System.out.println("Document signature is valid: " + keystore.verifySign(loremIpsum, documentSignature, publicKeys.get(0)));
 		
 		// Read signed document and print it
-		
 		System.exit(0);
 	}
 

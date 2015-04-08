@@ -83,7 +83,7 @@ public class KeyStoreUtils {
 	 * @throws Exception
 	 */
 	private void buildPublicKeys() throws Exception {
-		// TODO Works with whatever I throw at it: SHA1withRSA, SHA256withRSA, SHA512withRSA
+		// TODO Works with whatever I throw at it: SHA256withRSA, SHA512withRSA
 		signature = Signature.getInstance("SHA512withRSA");
 		for (Certificate certificate : certificates) {
 			publicKeys.add(certificate.getPublicKey());
@@ -128,7 +128,7 @@ public class KeyStoreUtils {
 	/**
 	 * 
 	 * @param document
-	 * @param signedDocument
+	 * @param documentSignature
 	 * @param publicKey
 	 * @return 
 	 * @throws NoSuchAlgorithmException
@@ -136,10 +136,10 @@ public class KeyStoreUtils {
 	 * @throws SignatureException 
 	 */
 	// TODO Add check for document and signedDocument size
-	public Boolean verifySign(String document, byte[] signedDocument, PublicKey publicKey) throws Exception {
+	public Boolean verifySign(String document, byte[] documentSignature, PublicKey publicKey) throws Exception {
 		signature.initVerify(publicKey);
 		signature.update(document.getBytes());
-		return signature.verify(signedDocument);
+		return signature.verify(documentSignature);
 	}
 
 	public List<PublicKey> getPublicKeys() {
