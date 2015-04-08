@@ -28,28 +28,33 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		String keyStorePath = "src/main/resources/client.jks";
 		String keyStorePasswd = "rcpxrcpx";
+		
 		// Create keystore
 		keystore = new KeyStoreUtils(keyStorePath, keyStorePasswd);
+		
 		// Get certificate aliases
 		ArrayList<String> certificateAliases = keystore.getCertificateAliases();
 		for (String certificateAliase : certificateAliases) {
 			System.out.println("Certificate alias in keystore: " + certificateAliase);
 		}
+		
 		// Get public keys
 		List<PublicKey> publicKeys = keystore.getPublicKeys();
 		for (PublicKey publicKey : publicKeys) {
 			System.out.println("Public key algorithms in keystore: " + publicKey.getAlgorithm());
 		}
+		
 		// Get private keys
 		String keyAlias = "client";
 		String keyPasswd = "rcpx";
 		PrivateKey privateKey = keystore.getPrivateKey(keyAlias, keyPasswd);
+		
 		// TODO Change to byte array
 		String decodedKey = keystore.getDecodedPrivateKey(privateKey);
 		System.out.println("Private key: " + decodedKey);
 		
 		// Read a document
-		String loremIpsum = readTextFileToString("src/main/resources/lorem_ipsum.txt");
+		String loremIpsum = readTextFile("src/main/resources/lorem_ipsum.txt");
 		System.out.println("\n*** CLEAR TEXT DOCUMENT ***");
 		System.out.println(loremIpsum);
 		
@@ -67,7 +72,7 @@ public class Main {
 		System.exit(0);
 	}
 
-	private static String readTextFileToString(String fileName) throws UnsupportedEncodingException, IOException {
+	private static String readTextFile(String fileName) throws UnsupportedEncodingException, IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(fileName));
 		return new String(encoded, "UTF8");
 	}
