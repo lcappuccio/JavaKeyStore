@@ -23,6 +23,7 @@ import java.security.Signature;
 import java.security.SignatureException;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import sun.misc.BASE64Encoder;
@@ -33,8 +34,9 @@ public class KeyStoreUtils {
 	private final Signature signature;
 	private final ArrayList<Certificate> certificates;
 	private final ArrayList<PublicKey> publicKeys;
-	private final ArrayList<PrivateKey> privateKeys;
+	private PrivateKey privateKey;
 	private final ArrayList<String> certificateAliases;
+	private byte[] byteSignature;
 
 	/**
 	 *
@@ -42,14 +44,13 @@ public class KeyStoreUtils {
 	 * @param keyStorePasswd
 	 * @throws Exception
 	 */
-	public KeyStoreUtils(String keyStorePath, String keyStorePasswd)
+	public KeyStoreUtils(String keyStorePath, byte[] keyStorePasswd)
 			throws Exception {
 		this.certificates = new ArrayList();
 		this.certificateAliases = new ArrayList();
 		this.publicKeys = new ArrayList();
-		this.privateKeys = new ArrayList();
 		// Initialize keyStore
-		openKeyStore(keyStorePath, keyStorePasswd);
+		openKeyStore(keyStorePath, new String(keyStorePasswd));
 		// Load certificates
 		Enumeration enumeration = keyStore.aliases();
 		while (enumeration.hasMoreElements()) {
@@ -68,7 +69,6 @@ public class KeyStoreUtils {
 	 *
 	 * @param keyStorePath
 	 * @param keyStorePasswd
-	 * @return
 	 * @throws Exception
 	 */
 	// TODO Pass keyStorePasswd as CharArray directly
@@ -83,35 +83,21 @@ public class KeyStoreUtils {
 	 *
 	 * @param keyAlias
 	 * @param keyPasswd
-	 * @return
 	 * @throws Exception
 	 */
-	public PrivateKey getPrivateKey(String keyAlias, String keyPasswd) throws Exception {
-		PrivateKey key = (PrivateKey) keyStore.getKey(keyAlias, keyPasswd.toCharArray());
-		return key;
-	}
-
-	/**
-	 *
-	 * @param key
-	 * @return
-	 */
-	// TODO Don't save key as BASE64 encode
-	public String getDecodedPrivateKey(PrivateKey key) {
-		return new BASE64Encoder().encode(key.getEncoded());
+	public void useKey(String keyAlias, String keyPasswd) throws Exception {
+		privateKey = (PrivateKey) keyStore.getKey(keyAlias, keyPasswd.toCharArray());
 	}
 
 	/**
 	 *
 	 * @param document
-	 * @param privateKey
-	 * @return
 	 * @throws Exception
 	 */
-	public byte[] getSignature(String document, PrivateKey privateKey) throws Exception {
+	public void signDocument(String document) throws Exception {
 		signature.initSign(privateKey);
 		signature.update(document.getBytes());
-		return signature.sign();
+		byteSignature = signature.sign();
 	}
 
 	/**
