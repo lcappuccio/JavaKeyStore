@@ -13,14 +13,19 @@ package com.scytl.javakeystore.pojo;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -38,10 +43,13 @@ public class KeyStoreUtils {
 	 *
 	 * @param keyStorePath
 	 * @param keyStorePasswd
-	 * @throws Exception
+	 * @throws java.security.KeyStoreException
+	 * @throws java.io.IOException
+	 * @throws java.io.FileNotFoundException
+	 * @throws java.security.NoSuchAlgorithmException
+	 * @throws java.security.cert.CertificateException
 	 */
-	public KeyStoreUtils(String keyStorePath, byte[] keyStorePasswd)
-			throws Exception {
+	public KeyStoreUtils(String keyStorePath, byte[] keyStorePasswd) throws KeyStoreException, IOException, FileNotFoundException, NoSuchAlgorithmException, CertificateException {
 		this.certificates = new ArrayList();
 		this.certificateAliases = new ArrayList();
 		this.publicKeys = new ArrayList();
@@ -65,13 +73,16 @@ public class KeyStoreUtils {
 	 *
 	 * @param keyStorePath
 	 * @param keyStorePasswd
-	 * @throws Exception
+	 * @throws KeyStoreException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws NoSuchAlgorithmException
+	 * @throws CertificateException
 	 */
-	// TODO Pass keyStorePasswd as CharArray directly
-	private void openKeyStore(String keyStorePath, String keyStorePasswd)
-			throws Exception {
+	private void openKeyStore(String keyStorePath, String keyStorePasswd) throws KeyStoreException, FileNotFoundException, IOException, NoSuchAlgorithmException, CertificateException {
 		keyStore = KeyStore.getInstance("jks");
 		FileInputStream inputStream = new FileInputStream(new File(keyStorePath));
+
 		keyStore.load(inputStream, keyStorePasswd.toCharArray());
 	}
 
@@ -79,18 +90,21 @@ public class KeyStoreUtils {
 	 *
 	 * @param keyAlias
 	 * @param keyPasswd
-	 * @throws Exception
+	 * @throws java.security.KeyStoreException
+	 * @throws java.security.NoSuchAlgorithmException
+	 * @throws java.security.UnrecoverableKeyException
 	 */
-	public void useKey(String keyAlias, String keyPasswd) throws Exception {
+	public void useKey(String keyAlias, String keyPasswd) throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
 		privateKey = (PrivateKey) keyStore.getKey(keyAlias, keyPasswd.toCharArray());
 	}
 
 	/**
 	 *
 	 * @param document
-	 * @throws Exception
+	 * @throws java.security.InvalidKeyException
+	 * @throws java.security.SignatureException
 	 */
-	public void signDocument(String document) throws Exception {
+	public void signDocument(String document) throws InvalidKeyException, SignatureException {
 		signature.initSign(privateKey);
 		signature.update(document.getBytes());
 		byteSignature = signature.sign();
@@ -101,14 +115,13 @@ public class KeyStoreUtils {
 	 * @param document
 	 * @param documentSignature
 	 * @return
-	 * @throws NoSuchAlgorithmException
-	 * @throws InvalidKeyException
-	 * @throws SignatureException
+	 * @throws java.security.InvalidKeyException
+	 * @throws java.security.SignatureException
 	 */
 	// TODO Add check for document and signedDocument size
 	// TODO Try to validate against every key of a keystore
 	// TODO Implement validation against certificate
-	public Boolean verifySign(String document, byte[] documentSignature) throws Exception {
+	public Boolean verifySign(String document, byte[] documentSignature) throws InvalidKeyException, SignatureException {
 		signature.initVerify(publicKeys.get(0));
 		signature.update(document.getBytes());
 		return signature.verify(documentSignature);
