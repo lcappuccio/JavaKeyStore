@@ -30,6 +30,11 @@ public class ZipUtils {
 		zipOutput = new ZipOutputStream(fos);
 	}
 
+	/**
+	 *
+	 * @param fileName
+	 * @throws IOException
+	 */
 	public void addFileToZip(File fileName) throws IOException {
 		ZipEntry zipEntry = new ZipEntry(fileName.getName());
 		zipOutput.putNextEntry(zipEntry);
@@ -41,9 +46,13 @@ public class ZipUtils {
 		}
 		zipOutput.closeEntry();
 	}
-	
+
+	/**
+	 *
+	 * @throws IOException
+	 */
 	public void closeZip() throws IOException {
 		// close it
-		zipOutput.close();		
+		zipOutput.close();
 	}
 }

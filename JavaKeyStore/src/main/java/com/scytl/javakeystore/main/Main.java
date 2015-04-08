@@ -27,9 +27,9 @@ public class Main {
 	private static ZipUtils zipUtil;
 
 	public static void main(String[] args) throws Exception {
+
 		String keyStorePath = "src/main/resources/client.jks";
 		byte[] keyStorePasswd = "rcpxrcpx".getBytes();
-		// TODO just pass alias, the key password and that's all
 
 		// Create keystore
 		keystore = new KeyStoreUtils(keyStorePath, keyStorePasswd);

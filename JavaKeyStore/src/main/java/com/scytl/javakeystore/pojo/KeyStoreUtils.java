@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.security.InvalidKeyException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -24,7 +23,6 @@ import java.security.SignatureException;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 
 public class KeyStoreUtils {
 
@@ -116,18 +114,10 @@ public class KeyStoreUtils {
 		return signature.verify(documentSignature);
 	}
 
-	public List<PublicKey> getPublicKeys() {
-		return publicKeys;
-	}
-
-	public ArrayList<String> getCertificateAliases() {
-		return certificateAliases;
-	}
-
-	public Certificate getCertificateForAlias(String alias) throws KeyStoreException {
-		return keyStore.getCertificate(alias);
-	}
-
+	/**
+	 *
+	 * @return
+	 */
 	public byte[] getDocumentSignature() {
 		return byteSignature;
 	}
