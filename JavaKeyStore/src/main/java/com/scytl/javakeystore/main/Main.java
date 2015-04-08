@@ -19,6 +19,12 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import org.apache.commons.io.FileUtils;
 
 public class Main {
@@ -26,7 +32,7 @@ public class Main {
 	private static KeyStoreUtils keystore;
 	private static ZipUtils zipUtil;
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws KeyStoreException, IOException, FileNotFoundException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, InvalidKeyException, SignatureException {
 
 		String keyStorePath = "src/main/resources/client.jks";
 		byte[] keyStorePasswd = "rcpxrcpx".getBytes();
@@ -36,7 +42,7 @@ public class Main {
 
 		// Select private key
 		String keyAlias = "client";
-		String keyPasswd = "rcpx";
+		char[] keyPasswd = "rcpx".toCharArray();
 		keystore.useKey(keyAlias, keyPasswd);
 
 		// Read a document
@@ -65,11 +71,25 @@ public class Main {
 		System.exit(0);
 	}
 
+	/**
+	 *
+	 * @param fileName
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 * @throws IOException
+	 */
 	private static String readTextFile(String fileName) throws UnsupportedEncodingException, IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(fileName));
 		return new String(encoded, "UTF8");
 	}
 
+	/**
+	 *
+	 * @param text
+	 * @param fileName
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	private static void writeTextToFile(String text, File fileName) throws FileNotFoundException, IOException {
 		FileUtils.writeStringToFile(fileName, text);
 	}
