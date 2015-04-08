@@ -74,7 +74,7 @@ public class Main {
 		System.out.println("Document signature is valid: " + keystore.verifySign(loremIpsum, documentSignature, publicKeys.get(0)));
 		assert(keystore.verifySign(loremIpsum, documentSignature, publicKeys.get(0)));
 		// Negative case
-		System.out.println("Document signature is valid: " + keystore.verifySign("Falsified document", documentSignature, publicKeys.get(0)));
+		System.out.println("Falsified document signature is valid: " + keystore.verifySign("Falsified document", documentSignature, publicKeys.get(0)));
 		assert(keystore.verifySign("Falsified document", documentSignature, publicKeys.get(0)) == false);
 
 		// Save document and signature to ZIP
