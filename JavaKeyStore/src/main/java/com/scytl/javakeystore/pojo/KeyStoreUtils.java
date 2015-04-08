@@ -31,9 +31,10 @@ public class KeyStoreUtils {
 
 	private KeyStore keyStore;
 	private Signature signature;
-	private final List<Certificate> certificates = new ArrayList();
-	private final List<PublicKey> publicKeys;
-	private final ArrayList<String> certificateAliases = new ArrayList();
+	private final ArrayList<Certificate> certificates;
+	private final ArrayList<PublicKey> publicKeys;
+	private final ArrayList<PrivateKey> privateKeys;
+	private final ArrayList<String> certificateAliases;
 
 	/**
 	 *
@@ -43,10 +44,24 @@ public class KeyStoreUtils {
 	 */
 	public KeyStoreUtils(String keyStorePath, String keyStorePasswd)
 			throws Exception {
+		this.certificates = new ArrayList();
+		this.certificateAliases = new ArrayList();
 		this.publicKeys = new ArrayList();
-		keyStore = openKeyStore(keyStorePath, keyStorePasswd);
-		buildCertificates();
-		buildPublicKeys();
+		this.privateKeys = new ArrayList();
+		// Initialize keyStore
+		openKeyStore(keyStorePath, keyStorePasswd);
+		// Load certificates
+		Enumeration enumeration = keyStore.aliases();
+		while (enumeration.hasMoreElements()) {
+			String alias = (String) enumeration.nextElement();
+			certificateAliases.add(alias);
+			certificates.add(keyStore.getCertificate(alias));
+		}
+		// Initialize signature and load public keys
+		signature = Signature.getInstance("SHA512withRSA");
+		for (Certificate certificate : certificates) {
+			publicKeys.add(certificate.getPublicKey());
+		}
 	}
 
 	/**
@@ -57,37 +72,11 @@ public class KeyStoreUtils {
 	 * @throws Exception
 	 */
 	// TODO Pass keyStorePasswd as CharArray directly
-	private KeyStore openKeyStore(String keyStorePath, String keyStorePasswd)
+	private void openKeyStore(String keyStorePath, String keyStorePasswd)
 			throws Exception {
 		keyStore = KeyStore.getInstance("jks");
 		FileInputStream inputStream = new FileInputStream(new File(keyStorePath));
 		keyStore.load(inputStream, keyStorePasswd.toCharArray());
-		return keyStore;
-	}
-
-	/**
-	 *
-	 * @throws Exception
-	 */
-	private void buildCertificates() throws Exception {
-		Enumeration enumeration = keyStore.aliases();
-		while (enumeration.hasMoreElements()) {
-			String alias = (String) enumeration.nextElement();
-			certificateAliases.add(alias);
-			certificates.add(keyStore.getCertificate(alias));
-		}
-	}
-
-	/**
-	 *
-	 * @throws Exception
-	 */
-	private void buildPublicKeys() throws Exception {
-		// TODO Works with whatever I throw at it: SHA256withRSA, SHA512withRSA
-		signature = Signature.getInstance("SHA512withRSA");
-		for (Certificate certificate : certificates) {
-			publicKeys.add(certificate.getPublicKey());
-		}
 	}
 
 	/**
@@ -113,11 +102,11 @@ public class KeyStoreUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param document
 	 * @param privateKey
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public byte[] getSignature(String document, PrivateKey privateKey) throws Exception {
 		signature = Signature.getInstance("SHA512withRSA");
@@ -125,16 +114,16 @@ public class KeyStoreUtils {
 		signature.update(document.getBytes());
 		return signature.sign();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param document
 	 * @param documentSignature
 	 * @param publicKey
-	 * @return 
+	 * @return
 	 * @throws NoSuchAlgorithmException
 	 * @throws InvalidKeyException
-	 * @throws SignatureException 
+	 * @throws SignatureException
 	 */
 	// TODO Add check for document and signedDocument size
 	// TODO Try to validate against every key of a keystore
