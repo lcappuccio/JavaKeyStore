@@ -72,6 +72,10 @@ public class Main {
 		// Verify signature
 		System.out.println("\n*** VERIFY SIGNATURE ***");
 		System.out.println("Document signature is valid: " + keystore.verifySign(loremIpsum, documentSignature, publicKeys.get(0)));
+		assert(keystore.verifySign(loremIpsum, documentSignature, publicKeys.get(0)));
+		// Negative case
+		System.out.println("Document signature is valid: " + keystore.verifySign("Falsified document", documentSignature, publicKeys.get(0)));
+		assert(keystore.verifySign("Falsified document", documentSignature, publicKeys.get(0)) == false);
 
 		// Save document and signature to ZIP
 		zipUtil = new ZipUtils("output");
