@@ -12,6 +12,7 @@
 package com.scytl.javakeystore.main;
 
 import com.scytl.javakeystore.pojo.KeyStoreUtils;
+import com.scytl.javakeystore.pojo.ZipUtils;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
@@ -25,6 +26,7 @@ import org.apache.commons.codec.binary.Hex;
 public class Main {
 
 	private static KeyStoreUtils keystore;
+	private static ZipUtils zipUtil;
 
 	public static void main(String[] args) throws Exception {
 		String keyStorePath = "src/main/resources/client.jks";
@@ -69,6 +71,8 @@ public class Main {
 		System.out.println("Document signature is valid: " + keystore.verifySign(loremIpsum, documentSignature, publicKeys.get(0)));
 
 		// Save document and signature to ZIP
+		zipUtil = new ZipUtils("ZipFiles");
+		zipUtil.addFileToZip(keyStorePath);
 		System.exit(0);
 	}
 
