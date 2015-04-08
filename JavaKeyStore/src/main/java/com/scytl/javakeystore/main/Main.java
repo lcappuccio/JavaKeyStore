@@ -18,7 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +44,7 @@ public class Main {
 		String keyAlias = "client";
 		String keyPasswd = "rcpx";
 		PrivateKey privateKey = keystore.getPrivateKey(keyAlias, keyPasswd);
+		// TODO Change to byte array
 		String decodedKey = keystore.getDecodedPrivateKey(privateKey);
 		System.out.println("Private key: " + decodedKey);
 		
@@ -55,7 +55,6 @@ public class Main {
 		
 		// Sign with the first certificate
 		System.out.println("\n*** SIGNED DOCUMENT ***");
-		Certificate certificate = keystore.getCertificateForAlias(certificateAliases.get(0));
 		byte[] signedDocument = keystore.signDocument(loremIpsum, privateKey);
 		System.out.println(new String(signedDocument));
 		

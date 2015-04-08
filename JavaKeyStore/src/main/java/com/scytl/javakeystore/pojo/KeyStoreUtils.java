@@ -56,6 +56,7 @@ public class KeyStoreUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	// TODO Pass keyStorePasswd as CharArray directly
 	private KeyStore openKeyStore(String keyStorePath, String keyStorePasswd)
 			throws Exception {
 		keyStore = KeyStore.getInstance("jks");
@@ -82,7 +83,8 @@ public class KeyStoreUtils {
 	 * @throws Exception
 	 */
 	private void buildPublicKeys() throws Exception {
-		signature = Signature.getInstance("SHA256withRSA");
+		// TODO Works with whatever I throw at it: SHA1withRSA, SHA256withRSA, SHA512withRSA
+		signature = Signature.getInstance("SHA512withRSA");
 		for (Certificate certificate : certificates) {
 			publicKeys.add(certificate.getPublicKey());
 		}
@@ -125,12 +127,15 @@ public class KeyStoreUtils {
 	
 	/**
 	 * 
+	 * @param document
 	 * @param signedDocument
 	 * @param publicKey
+	 * @return 
 	 * @throws NoSuchAlgorithmException
 	 * @throws InvalidKeyException
 	 * @throws SignatureException 
 	 */
+	// TODO Add check for document and signedDocument size
 	public Boolean verifySign(String document, byte[] signedDocument, PublicKey publicKey) throws Exception {
 		signature.initVerify(publicKey);
 		signature.update(document.getBytes());
