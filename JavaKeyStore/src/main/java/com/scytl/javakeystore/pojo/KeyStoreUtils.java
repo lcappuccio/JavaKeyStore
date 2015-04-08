@@ -107,6 +107,7 @@ public class KeyStoreUtils {
 	 * @param key
 	 * @return
 	 */
+	// TODO Don't save key as BASE64 encode
 	public String getDecodedPrivateKey(PrivateKey key) {
 		return new BASE64Encoder().encode(key.getEncoded());
 	}
@@ -136,6 +137,8 @@ public class KeyStoreUtils {
 	 * @throws SignatureException 
 	 */
 	// TODO Add check for document and signedDocument size
+	// TODO Try to validate against every key of a keystore
+	// TODO Implement validation against certificate
 	public Boolean verifySign(String document, byte[] documentSignature, PublicKey publicKey) throws Exception {
 		signature.initVerify(publicKey);
 		signature.update(document.getBytes());

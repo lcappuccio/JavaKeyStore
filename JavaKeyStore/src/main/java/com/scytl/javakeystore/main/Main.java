@@ -34,11 +34,12 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		String keyStorePath = "src/main/resources/client.jks";
 		String keyStorePasswd = "rcpxrcpx";
+		// TODO just pass alias, the key password and that's all
 
 		// Create keystore
 		keystore = new KeyStoreUtils(keyStorePath, keyStorePasswd);
 
-		// Get certificate aliases
+//		// Get certificate aliases
 		ArrayList<String> certificateAliases = keystore.getCertificateAliases();
 		for (String certificateAliase : certificateAliases) {
 			System.out.println("Certificate alias in keystore: " + certificateAliase);
@@ -53,9 +54,10 @@ public class Main {
 		// Get private keys
 		String keyAlias = "client";
 		String keyPasswd = "rcpx";
+		// This should not be here
 		PrivateKey privateKey = keystore.getPrivateKey(keyAlias, keyPasswd);
 
-		// TODO Change to byte array
+//		// TODO Change to byte array
 		String decodedKey = keystore.getDecodedPrivateKey(privateKey);
 		System.out.println("Private key:\n" + decodedKey);
 
@@ -66,6 +68,7 @@ public class Main {
 
 		// Sign with the first certificate
 		System.out.println("\n*** SIGNATURE ***");
+		// TODO This should not be here
 		byte[] documentSignature = keystore.getSignature(loremIpsum, privateKey);
 		System.out.println(Hex.encodeHexString(documentSignature));
 
