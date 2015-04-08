@@ -56,7 +56,7 @@ public class KeyStoreUtils {
 			certificateAliases.add(alias);
 			certificates.add(keyStore.getCertificate(alias));
 		}
-		// Initialize signature and load public keys
+		// Initialize signature and load certificates/public keys
 		signature = Signature.getInstance("SHA512withRSA");
 		for (Certificate certificate : certificates) {
 			publicKeys.add(certificate.getPublicKey());
@@ -102,7 +102,6 @@ public class KeyStoreUtils {
 	 *
 	 * @param document
 	 * @param documentSignature
-	 * @param publicKey
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 * @throws InvalidKeyException
@@ -111,8 +110,8 @@ public class KeyStoreUtils {
 	// TODO Add check for document and signedDocument size
 	// TODO Try to validate against every key of a keystore
 	// TODO Implement validation against certificate
-	public Boolean verifySign(String document, byte[] documentSignature, PublicKey publicKey) throws Exception {
-		signature.initVerify(publicKey);
+	public Boolean verifySign(String document, byte[] documentSignature) throws Exception {
+		signature.initVerify(publicKeys.get(0));
 		signature.update(document.getBytes());
 		return signature.verify(documentSignature);
 	}
@@ -127,6 +126,10 @@ public class KeyStoreUtils {
 
 	public Certificate getCertificateForAlias(String alias) throws KeyStoreException {
 		return keyStore.getCertificate(alias);
+	}
+
+	public byte[] getDocumentSignature() {
+		return byteSignature;
 	}
 
 }
