@@ -20,7 +20,6 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.PublicKey;
-import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 

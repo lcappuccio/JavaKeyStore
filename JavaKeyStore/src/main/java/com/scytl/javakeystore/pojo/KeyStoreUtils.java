@@ -23,10 +23,8 @@ import java.security.Signature;
 import java.security.SignatureException;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
-import sun.misc.BASE64Encoder;
 
 public class KeyStoreUtils {
 
