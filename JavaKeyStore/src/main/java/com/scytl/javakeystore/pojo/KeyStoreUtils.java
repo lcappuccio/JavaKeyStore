@@ -118,8 +118,8 @@ public class KeyStoreUtils {
 	 * @return
 	 * @throws Exception 
 	 */
-	public byte[] signDocument(String document, PrivateKey privateKey) throws Exception {
-		signature = Signature.getInstance("SHA256withRSA");
+	public byte[] getSignature(String document, PrivateKey privateKey) throws Exception {
+		signature = Signature.getInstance("SHA512withRSA");
 		signature.initSign(privateKey);
 		signature.update(document.getBytes());
 		return signature.sign();
