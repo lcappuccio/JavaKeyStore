@@ -30,7 +30,7 @@ import sun.misc.BASE64Encoder;
 public class KeyStoreUtils {
 
 	private KeyStore keyStore;
-	private Signature signature;
+	private final Signature signature;
 	private final ArrayList<Certificate> certificates;
 	private final ArrayList<PublicKey> publicKeys;
 	private final ArrayList<PrivateKey> privateKeys;
