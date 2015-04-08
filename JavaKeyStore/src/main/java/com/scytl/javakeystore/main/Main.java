@@ -42,7 +42,7 @@ public class Main {
 
 		// Select private key
 		String keyAlias = "client";
-		String keyPasswd = "rcpx";
+		char[] keyPasswd = "rcpx".toCharArray();
 		keystore.useKey(keyAlias, keyPasswd);
 
 		// Read a document

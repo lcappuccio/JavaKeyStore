@@ -82,7 +82,6 @@ public class KeyStoreUtils {
 	private void openKeyStore(String keyStorePath, String keyStorePasswd) throws KeyStoreException, FileNotFoundException, IOException, NoSuchAlgorithmException, CertificateException {
 		keyStore = KeyStore.getInstance("jks");
 		FileInputStream inputStream = new FileInputStream(new File(keyStorePath));
-
 		keyStore.load(inputStream, keyStorePasswd.toCharArray());
 	}
 
@@ -94,8 +93,8 @@ public class KeyStoreUtils {
 	 * @throws java.security.NoSuchAlgorithmException
 	 * @throws java.security.UnrecoverableKeyException
 	 */
-	public void useKey(String keyAlias, String keyPasswd) throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
-		privateKey = (PrivateKey) keyStore.getKey(keyAlias, keyPasswd.toCharArray());
+	public void useKey(String keyAlias, char[] keyPasswd) throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
+		privateKey = (PrivateKey) keyStore.getKey(keyAlias, keyPasswd);
 	}
 
 	/**
