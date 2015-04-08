@@ -22,6 +22,7 @@ import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FileUtils;
@@ -38,12 +39,6 @@ public class Main {
 
 		// Create keystore
 		keystore = new KeyStoreUtils(keyStorePath, keyStorePasswd);
-
-//		// Get certificate aliases
-		ArrayList<String> certificateAliases = keystore.getCertificateAliases();
-		for (String certificateAliase : certificateAliases) {
-			System.out.println("Certificate alias in keystore: " + certificateAliase);
-		}
 
 		// Get public keys
 		List<PublicKey> publicKeys = keystore.getPublicKeys();
@@ -75,16 +70,16 @@ public class Main {
 		// Verify signature
 		System.out.println("\n*** VERIFY SIGNATURE ***");
 		System.out.println("Document signature is valid: " + keystore.verifySign(loremIpsum, documentSignature, publicKeys.get(0)));
-		assert(keystore.verifySign(loremIpsum, documentSignature, publicKeys.get(0)));
+		assert (keystore.verifySign(loremIpsum, documentSignature, publicKeys.get(0)));
 		// Negative case
 		System.out.println("Falsified document signature is valid: " + keystore.verifySign("Falsified document", documentSignature, publicKeys.get(0)));
-		assert(keystore.verifySign("Falsified document", documentSignature, publicKeys.get(0)) == false);
+		assert (keystore.verifySign("Falsified document", documentSignature, publicKeys.get(0)) == false);
 
 		// Save document and signature to ZIP
 		zipUtil = new ZipUtils("output");
 		zipUtil.addFileToZip(new File("src/main/resources/lorem_ipsum.txt"));
 		File signatureFile = new File("target/lorem_ipsum.txt.sig");
-		writeTextToFile(Hex.encodeHexString(documentSignature), signatureFile);
+		writeTextToFile(Arrays.toString(documentSignature), signatureFile);
 		zipUtil.addFileToZip(signatureFile);
 		zipUtil.closeZip();
 		System.exit(0);
@@ -94,7 +89,7 @@ public class Main {
 		byte[] encoded = Files.readAllBytes(Paths.get(fileName));
 		return new String(encoded, "UTF8");
 	}
-	
+
 	private static void writeTextToFile(String text, File fileName) throws FileNotFoundException, IOException {
 		FileUtils.writeStringToFile(fileName, text);
 	}
