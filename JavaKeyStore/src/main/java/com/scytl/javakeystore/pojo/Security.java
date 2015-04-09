@@ -119,7 +119,6 @@ public class Security {
 	 * @param documentSignature
 	 * @return
 	 */
-	// TODO Add check for document and signedDocument size
 	// TODO Try to validate against every key of a keystore
 	// TODO Implement validation against certificate
 	public Boolean verifySign(String document, byte[] documentSignature) {
