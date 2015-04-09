@@ -38,8 +38,8 @@ public class SignatureUtil {
 	private PrivateKey privateKey;
 	private final ArrayList<String> certificateAliases;
 	private byte[] byteSignature;
-	private final static String algorithm = "SHA512withRSA";
-	private final static int signatureSize = 512;
+	private final static String algorithm = "SHA256withRSA";
+	private final static int signatureSize = 256;
 
 	/**
 	 *
@@ -132,7 +132,7 @@ public class SignatureUtil {
 	// TODO Implement validation against certificate
 	public Boolean verifySign(String document, byte[] documentSignature) throws com.scytl.javakeystore.exception.SignatureUtilException {
 		if (documentSignature.length != signatureSize) {
-			throw new com.scytl.javakeystore.exception.SignatureUtilException("Invalid signature size");
+			throw new com.scytl.javakeystore.exception.SignatureUtilException("Invalid signature size: " + documentSignature.length);
 		}
 		try {
 			signature.initVerify(publicKeys.get(0));
