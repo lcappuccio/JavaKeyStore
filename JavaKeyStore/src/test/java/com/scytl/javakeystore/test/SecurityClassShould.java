@@ -19,7 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import org.junit.Test;
 
-public class KeyStoreShould {
+public class SecurityClassShould {
 	
 	Security sut;
 	
