@@ -42,6 +42,7 @@ public class SignatureUtil {
 	private final static int signatureSize = 256;
 
 	/**
+	 * Initializes the object with a path to java key store and its password, see shell script to create the jks
 	 *
 	 * @param keyStorePath
 	 * @param keyStorePasswd
@@ -88,7 +89,8 @@ public class SignatureUtil {
 	}
 
 	/**
-	 *
+	 * Preselects a private key in the jks
+	 * 
 	 * @param keyAlias
 	 * @param keyPasswd
 	 * @throws com.scytl.javakeystore.exception.SignatureUtilException
@@ -105,6 +107,7 @@ public class SignatureUtil {
 	}
 
 	/**
+	 * Initializes the signature object that will be used to verify against the external file signature
 	 *
 	 * @param document
 	 * @throws com.scytl.javakeystore.exception.SignatureUtilException
@@ -123,6 +126,7 @@ public class SignatureUtil {
 	}
 
 	/**
+	 * Verifies the signature in the external file against the one obtained by the document/key pair
 	 *
 	 * @param document
 	 * @param documentSignature
