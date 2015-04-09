@@ -2,23 +2,22 @@
  * $Id$
  *
  * @author lcappuccio
- * @date 09/04/2015 10:42
+ * @date 09/04/2015 12:12
  *
  * Copyright (C) 2015 Scytl Secure Electronic Voting SA
  *
  * All rights reserved.
  *
  */
-package com.scytl.javakeystore.test;
+package com.scytl.javakeystore.pojo;
 
 import com.scytl.javakeystore.exception.SignatureUtilException;
-import com.scytl.javakeystore.pojo.SignatureUtil;
 import java.util.Arrays;
 import org.junit.Test;
 
-public class SignatureUtilShould {
+public class SignatureUtilTest {
 
-	SignatureUtil sut;
+   SignatureUtil sut;
 
 	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
 	public void throwExceptionNotExistingFile() throws SignatureUtilException {
