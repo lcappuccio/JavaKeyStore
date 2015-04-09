@@ -14,6 +14,7 @@ package com.scytl.javakeystore.pojo;
 import com.scytl.javakeystore.exception.SignatureUtilException;
 import java.util.Arrays;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class SignatureUtilTest {
@@ -55,6 +56,15 @@ public class SignatureUtilTest {
 		// Tamper the signature
 		byte[] testSignature = sut.getDocumentSignature();
 		sut.verifySign(testDocument, Arrays.copyOf(testSignature, testSignature.length - 5));
+	}
+	
+	@Test
+	public void askToVerifyDocument() throws SignatureUtilException {
+		buildEffectiveSut();
+		// Sign the document with the preselected key
+		String testDocument = "some text document";
+		sut.signDocument(testDocument);
+		assertTrue(sut.verifySign(testDocument, sut.getDocumentSignature()));
 	}
 
 	@Test
