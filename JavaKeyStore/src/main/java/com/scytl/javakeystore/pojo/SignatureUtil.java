@@ -90,7 +90,7 @@ public class SignatureUtil {
 
 	/**
 	 * Preselects a private key in the jks
-	 * 
+	 *
 	 * @param keyAlias
 	 * @param keyPasswd
 	 * @throws com.scytl.javakeystore.exception.SignatureUtilException
@@ -138,9 +138,14 @@ public class SignatureUtil {
 			throw new com.scytl.javakeystore.exception.SignatureUtilException("Invalid signature size: " + documentSignature.length);
 		}
 		try {
-			signature.initVerify(publicKeys.get(0));
-			signature.update(document.getBytes());
-			return signature.verify(documentSignature);
+			for (PublicKey publicKey : publicKeys) {
+				signature.initVerify(publicKey);
+				signature.update(document.getBytes());
+				if (signature.verify(documentSignature)) {
+					return true;
+				}
+			}
+			return false;
 		} catch (InvalidKeyException | SignatureException ex) {
 			throw new com.scytl.javakeystore.exception.SignatureUtilException(ex.getMessage());
 		}
