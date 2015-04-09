@@ -67,6 +67,7 @@ public class SignatureUtil {
 				publicKeys.add(certificate.getPublicKey());
 			}
 		} catch (KeyStoreException | NoSuchAlgorithmException ex) {
+			// Not testable because exceptions come not injectable/hardcoded variables
 			throw new com.scytl.javakeystore.exception.SignatureUtilException(ex.getMessage());
 		}
 	}
@@ -128,8 +129,6 @@ public class SignatureUtil {
 	 * @return
 	 * @throws com.scytl.javakeystore.exception.SignatureUtilException
 	 */
-	// TODO Try to validate against every key of a keystore
-	// TODO Implement validation against certificate
 	public Boolean verifySign(String document, byte[] documentSignature) throws com.scytl.javakeystore.exception.SignatureUtilException {
 		if (documentSignature.length != signatureSize) {
 			throw new com.scytl.javakeystore.exception.SignatureUtilException("Invalid signature size: " + documentSignature.length);
