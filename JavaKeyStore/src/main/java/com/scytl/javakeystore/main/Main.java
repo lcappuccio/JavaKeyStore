@@ -11,7 +11,7 @@
  */
 package com.scytl.javakeystore.main;
 
-import com.scytl.javakeystore.pojo.KeyStoreUtils;
+import com.scytl.javakeystore.pojo.Security;
 import com.scytl.javakeystore.pojo.ZipUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,7 +29,7 @@ import org.apache.commons.io.FileUtils;
 
 public class Main {
 
-	private static KeyStoreUtils keystore;
+	private static Security keystore;
 	private static ZipUtils zipUtil;
 
 	public static void main(String[] args) throws KeyStoreException, IOException, FileNotFoundException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, InvalidKeyException, SignatureException {
@@ -38,7 +38,7 @@ public class Main {
 		byte[] keyStorePasswd = "rcpxrcpx".getBytes();
 
 		// Create keystore
-		keystore = new KeyStoreUtils(keyStorePath, keyStorePasswd);
+		keystore = new Security(keyStorePath, keyStorePasswd);
 
 		// Select private key
 		String keyAlias = "client";
