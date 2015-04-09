@@ -104,6 +104,9 @@ public class Security {
 	 * @param document
 	 */
 	public void signDocument(String document) {
+		if (document == null) {
+			throw new SecurityException("Trying to sign a null document");
+		}
 		try {
 			signature.initSign(privateKey);
 			signature.update(document.getBytes());
@@ -138,5 +141,4 @@ public class Security {
 	public byte[] getDocumentSignature() {
 		return byteSignature;
 	}
-
 }
