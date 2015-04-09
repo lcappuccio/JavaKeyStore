@@ -11,7 +11,8 @@
  */
 package com.scytl.javakeystore.main;
 
-import com.scytl.javakeystore.pojo.KeyStoreUtils;
+import com.scytl.javakeystore.exception.SignatureUtilException;
+import com.scytl.javakeystore.pojo.SignatureUtil;
 import com.scytl.javakeystore.pojo.ZipUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,26 +20,20 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.InvalidKeyException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
 import org.apache.commons.io.FileUtils;
 
 public class Main {
 
-	private static KeyStoreUtils keystore;
+	private static SignatureUtil keystore;
 	private static ZipUtils zipUtil;
 
-	public static void main(String[] args) throws KeyStoreException, IOException, FileNotFoundException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, InvalidKeyException, SignatureException {
+	public static void main(String[] args) throws IOException, SignatureUtilException {
 
 		String keyStorePath = "src/main/resources/client.jks";
 		byte[] keyStorePasswd = "rcpxrcpx".getBytes();
 
 		// Create keystore
-		keystore = new KeyStoreUtils(keyStorePath, keyStorePasswd);
+		keystore = new SignatureUtil(keyStorePath, keyStorePasswd);
 
 		// Select private key
 		String keyAlias = "client";
