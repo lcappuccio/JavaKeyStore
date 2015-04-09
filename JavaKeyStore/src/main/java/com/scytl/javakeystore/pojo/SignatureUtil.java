@@ -11,6 +11,7 @@
  */
 package com.scytl.javakeystore.pojo;
 
+import com.scytl.javakeystore.exception.SignatureUtilException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,7 +29,7 @@ import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-public class Security {
+public class SignatureUtil {
 
 	private KeyStore keyStore;
 	private final Signature signature;
@@ -38,13 +39,15 @@ public class Security {
 	private final ArrayList<String> certificateAliases;
 	private byte[] byteSignature;
 	private final static String algorithm = "SHA512withRSA";
+	private final static int signatureSize = 512;
 
 	/**
 	 *
 	 * @param keyStorePath
 	 * @param keyStorePasswd
+	 * @throws com.scytl.javakeystore.exception.SignatureUtilException
 	 */
-	public Security(String keyStorePath, byte[] keyStorePasswd) {
+	public SignatureUtil(String keyStorePath, byte[] keyStorePasswd) throws com.scytl.javakeystore.exception.SignatureUtilException {
 		this.certificates = new ArrayList();
 		this.certificateAliases = new ArrayList();
 		this.publicKeys = new ArrayList();
@@ -64,7 +67,7 @@ public class Security {
 				publicKeys.add(certificate.getPublicKey());
 			}
 		} catch (KeyStoreException | NoSuchAlgorithmException ex) {
-			throw new SecurityException(ex.getMessage());
+			throw new com.scytl.javakeystore.exception.SignatureUtilException(ex.getMessage());
 		}
 	}
 
@@ -73,13 +76,13 @@ public class Security {
 	 * @param keyStorePath
 	 * @param keyStorePasswd
 	 */
-	private void openKeyStore(String keyStorePath, String keyStorePasswd) {
+	private void openKeyStore(String keyStorePath, String keyStorePasswd) throws com.scytl.javakeystore.exception.SignatureUtilException {
 		try {
 			keyStore = KeyStore.getInstance("jks");
 			FileInputStream inputStream = new FileInputStream(new File(keyStorePath));
 			keyStore.load(inputStream, keyStorePasswd.toCharArray());
 		} catch (NoSuchAlgorithmException | CertificateException | KeyStoreException | IOException ex) {
-			throw new SecurityException(ex.getMessage());
+			throw new com.scytl.javakeystore.exception.SignatureUtilException(ex.getMessage());
 		}
 	}
 
@@ -87,32 +90,34 @@ public class Security {
 	 *
 	 * @param keyAlias
 	 * @param keyPasswd
+	 * @throws com.scytl.javakeystore.exception.SignatureUtilException
 	 */
-	public void useKey(String keyAlias, char[] keyPasswd) {
+	public void useKey(String keyAlias, char[] keyPasswd) throws com.scytl.javakeystore.exception.SignatureUtilException {
 		try {
 			privateKey = (PrivateKey) keyStore.getKey(keyAlias, keyPasswd);
 			if (privateKey == null) {
-				throw new SecurityException("No such key in keystore");
+				throw new SignatureUtilException("No such key in keystore");
 			}
 		} catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException ex) {
-			throw new SecurityException(ex.getMessage());
+			throw new com.scytl.javakeystore.exception.SignatureUtilException(ex.getMessage());
 		}
 	}
 
 	/**
 	 *
 	 * @param document
+	 * @throws com.scytl.javakeystore.exception.SignatureUtilException
 	 */
-	public void signDocument(String document) {
+	public void signDocument(String document) throws com.scytl.javakeystore.exception.SignatureUtilException {
 		if (document == null) {
-			throw new SecurityException("Trying to sign a null document");
+			throw new com.scytl.javakeystore.exception.SignatureUtilException("Trying to sign a null document");
 		}
 		try {
 			signature.initSign(privateKey);
 			signature.update(document.getBytes());
 			byteSignature = signature.sign();
 		} catch (InvalidKeyException | SignatureException ex) {
-			throw new SecurityException(ex.getMessage());
+			throw new com.scytl.javakeystore.exception.SignatureUtilException(ex.getMessage());
 		}
 	}
 
@@ -121,16 +126,20 @@ public class Security {
 	 * @param document
 	 * @param documentSignature
 	 * @return
+	 * @throws com.scytl.javakeystore.exception.SignatureUtilException
 	 */
 	// TODO Try to validate against every key of a keystore
 	// TODO Implement validation against certificate
-	public Boolean verifySign(String document, byte[] documentSignature) {
+	public Boolean verifySign(String document, byte[] documentSignature) throws com.scytl.javakeystore.exception.SignatureUtilException {
+		if (documentSignature.length != signatureSize) {
+			throw new com.scytl.javakeystore.exception.SignatureUtilException("Invalid signature size");
+		}
 		try {
 			signature.initVerify(publicKeys.get(0));
 			signature.update(document.getBytes());
 			return signature.verify(documentSignature);
 		} catch (InvalidKeyException | SignatureException ex) {
-			throw new SecurityException(ex.getMessage());
+			throw new com.scytl.javakeystore.exception.SignatureUtilException(ex.getMessage());
 		}
 	}
 

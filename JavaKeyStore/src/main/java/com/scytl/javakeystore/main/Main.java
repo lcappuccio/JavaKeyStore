@@ -11,7 +11,8 @@
  */
 package com.scytl.javakeystore.main;
 
-import com.scytl.javakeystore.pojo.Security;
+import com.scytl.javakeystore.exception.SignatureUtilException;
+import com.scytl.javakeystore.pojo.SignatureUtil;
 import com.scytl.javakeystore.pojo.ZipUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,16 +24,16 @@ import org.apache.commons.io.FileUtils;
 
 public class Main {
 
-	private static Security keystore;
+	private static SignatureUtil keystore;
 	private static ZipUtils zipUtil;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, SignatureUtilException {
 
 		String keyStorePath = "src/main/resources/client.jks";
 		byte[] keyStorePasswd = "rcpxrcpx".getBytes();
 
 		// Create keystore
-		keystore = new Security(keyStorePath, keyStorePasswd);
+		keystore = new SignatureUtil(keyStorePath, keyStorePasswd);
 
 		// Select private key
 		String keyAlias = "client";
