@@ -37,6 +37,7 @@ public class Security {
 	private PrivateKey privateKey;
 	private final ArrayList<String> certificateAliases;
 	private byte[] byteSignature;
+	private final static String algorithm = "SHA512withRSA";
 
 	/**
 	 *
@@ -58,7 +59,7 @@ public class Security {
 				certificates.add(keyStore.getCertificate(alias));
 			}
 			// Initialize signature and load certificates/public keys
-			signature = Signature.getInstance("SHA512withRSA");
+			signature = Signature.getInstance(algorithm);
 			for (Certificate certificate : certificates) {
 				publicKeys.add(certificate.getPublicKey());
 			}
@@ -90,6 +91,9 @@ public class Security {
 	public void useKey(String keyAlias, char[] keyPasswd) {
 		try {
 			privateKey = (PrivateKey) keyStore.getKey(keyAlias, keyPasswd);
+			if (privateKey == null) {
+				throw new SecurityException("No such key in keystore");
+			}
 		} catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException ex) {
 			throw new SecurityException(ex.getMessage());
 		}

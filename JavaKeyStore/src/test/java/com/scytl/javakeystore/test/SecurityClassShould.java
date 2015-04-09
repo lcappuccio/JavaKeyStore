@@ -32,5 +32,14 @@ public class SecurityClassShould {
 	public void wrongKeyStorePasswordException() throws KeyStoreException, IOException, FileNotFoundException, NoSuchAlgorithmException, CertificateException {
 		sut = new Security("src/test/resources/client.jks", "abc".getBytes());
 	}
+	
+	@Test(expected = SecurityException.class)
+	public void nonExistingKeyAliasDisplaysError() {
+		sut = new Security("src/test/resources/client.jks", "rcpxrcpx".getBytes()); 
+		// Select private key
+		String keyAlias = "some_missing_key_alias";
+		char[] keyPasswd = "some_nonexisting_pwd".toCharArray();
+		sut.useKey(keyAlias, keyPasswd);
+	}
 
 }
