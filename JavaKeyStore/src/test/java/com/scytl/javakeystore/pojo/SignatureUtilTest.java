@@ -13,6 +13,7 @@ package com.scytl.javakeystore.pojo;
 
 import com.scytl.javakeystore.exception.SignatureUtilException;
 import java.util.Arrays;
+import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 
 public class SignatureUtilTest {
@@ -62,6 +63,19 @@ public class SignatureUtilTest {
 		// Tamper the signature
 		byte[] testSignature = sut.getDocumentSignature();
 		sut.verifySign(testDocument, Arrays.copyOf(testSignature, testSignature.length - 5));
+	}
+	
+	@Test
+	public void askToVerifyTamperedDocument() throws SignatureUtilException {
+		sut = new SignatureUtil("src/test/resources/client.jks", "rcpxrcpx".getBytes());
+		// Select private key
+		String keyAlias = "client";
+		char[] keyPasswd = "rcpx".toCharArray();
+		sut.useKey(keyAlias, keyPasswd);
+		// Sign the document with the preselected key
+		String testDocument = "some text document";
+		sut.signDocument(testDocument);
+		assertFalse(sut.verifySign(testDocument.substring(0, testDocument.length() - 5), sut.getDocumentSignature()));
 	}
 
 }
