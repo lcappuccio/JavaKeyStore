@@ -19,12 +19,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.InvalidKeyException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
 import org.apache.commons.io.FileUtils;
 
 public class Main {
@@ -32,7 +26,7 @@ public class Main {
 	private static Security keystore;
 	private static ZipUtils zipUtil;
 
-	public static void main(String[] args) throws KeyStoreException, IOException, FileNotFoundException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, InvalidKeyException, SignatureException {
+	public static void main(String[] args) throws IOException {
 
 		String keyStorePath = "src/main/resources/client.jks";
 		byte[] keyStorePasswd = "rcpxrcpx".getBytes();
