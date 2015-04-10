@@ -12,7 +12,7 @@
 package com.scytl.javakeystore.main;
 
 import com.scytl.javakeystore.exception.SignatureUtilException;
-import com.scytl.javakeystore.pojo.SignatureUtil;
+import com.scytl.javakeystore.impl.SignatureUtilImpl;
 import com.scytl.javakeystore.pojo.ZipUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,7 +24,7 @@ import org.apache.commons.io.FileUtils;
 
 public class Main {
 
-	private static SignatureUtil keystore;
+	private static SignatureUtilImpl keystore;
 	private static ZipUtils zipUtil;
 
 	public static void main(String[] args) throws IOException, SignatureUtilException {
@@ -33,7 +33,7 @@ public class Main {
 		byte[] keyStorePasswd = "rcpxrcpx".getBytes();
 
 		// Create keystore
-		keystore = new SignatureUtil(keyStorePath, keyStorePasswd);
+		keystore = new SignatureUtilImpl(keyStorePath, keyStorePasswd);
 
 		// Select private key
 		String keyAlias = "client";

@@ -11,6 +11,7 @@
  */
 package com.scytl.javakeystore.pojo;
 
+import com.scytl.javakeystore.impl.SignatureUtilImpl;
 import com.scytl.javakeystore.exception.SignatureUtilException;
 import java.util.Arrays;
 import static org.junit.Assert.assertFalse;
@@ -19,21 +20,21 @@ import org.junit.Test;
 
 public class SignatureUtilTest {
 
-	SignatureUtil sut;
+	SignatureUtilImpl sut;
 
 	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
 	public void throwExceptionNotExistingFile() throws SignatureUtilException {
-		sut = new SignatureUtil("abc", "somepassword".getBytes());
+		sut = new SignatureUtilImpl("abc", "somepassword".getBytes());
 	}
 
 	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
 	public void wrongKeyStorePasswordException() throws SignatureUtilException {
-		sut = new SignatureUtil("src/test/resources/client.jks", "abc".getBytes());
+		sut = new SignatureUtilImpl("src/test/resources/client.jks", "abc".getBytes());
 	}
 
 	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
 	public void nonExistingKeyAliasDisplaysError() throws SignatureUtilException {
-		sut = new SignatureUtil("src/test/resources/client.jks", "rcpxrcpx".getBytes());
+		sut = new SignatureUtilImpl("src/test/resources/client.jks", "rcpxrcpx".getBytes());
 		// Select private key
 		String keyAlias = "some_missing_key_alias";
 		char[] keyPasswd = "some_nonexisting_pwd".toCharArray();
@@ -82,7 +83,7 @@ public class SignatureUtilTest {
 	 * @throws SignatureUtilException
 	 */
 	private void buildEffectiveSut() throws SignatureUtilException {
-		sut = new SignatureUtil("src/test/resources/client.jks", "rcpxrcpx".getBytes());
+		sut = new SignatureUtilImpl("src/test/resources/client.jks", "rcpxrcpx".getBytes());
 		// Select private key
 		String keyAlias = "client";
 		char[] keyPasswd = "rcpx".toCharArray();
