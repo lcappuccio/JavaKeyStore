@@ -57,7 +57,7 @@ public class SignatureUtilTest {
 		byte[] testSignature = sut.getDocumentSignature();
 		sut.verifySign(testDocument, Arrays.copyOf(testSignature, testSignature.length - 5));
 	}
-	
+
 	@Test
 	public void askToVerifyDocument() throws SignatureUtilException {
 		buildEffectiveSut();
@@ -77,7 +77,7 @@ public class SignatureUtilTest {
 	}
 
 	/**
-	 * Build sut for tests
+	 * Build SignatureUtil for tests
 	 *
 	 * @throws SignatureUtilException
 	 */
