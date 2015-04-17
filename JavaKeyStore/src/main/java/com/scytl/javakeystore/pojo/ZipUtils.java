@@ -11,6 +11,7 @@
  */
 package com.scytl.javakeystore.pojo;
 
+import com.scytl.javakeystore.main.Main;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -26,7 +27,7 @@ public class ZipUtils {
 
 	public ZipUtils(String zipFileName) throws FileNotFoundException {
 		this.buffer = new byte[1024];
-		FileOutputStream fos = new FileOutputStream("target/" + zipFileName + ".zip");
+		FileOutputStream fos = new FileOutputStream(Main.OUTPUT_PATH + zipFileName + ".zip");
 		zipOutput = new ZipOutputStream(fos);
 	}
 

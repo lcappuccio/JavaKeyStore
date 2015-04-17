@@ -24,12 +24,13 @@ import org.apache.commons.io.FileUtils;
 
 public class Main {
 
+	public static final String INPUT_PATH = "input/", OUTPUT_PATH = System.getProperty("user.dir") + "/";
 	private static SignatureUtilImpl keystore;
 	private static ZipUtils zipUtil;
 
 	public static void main(String[] args) throws IOException, SignatureUtilException {
 
-		String keyStorePath = "src/main/resources/client.jks";
+		String keyStorePath = INPUT_PATH + "client.jks";
 		byte[] keyStorePasswd = "rcpxrcpx".getBytes();
 
 		// Create keystore
@@ -41,7 +42,7 @@ public class Main {
 		keystore.useKey(keyAlias, keyPasswd);
 
 		// Read a document
-		String loremIpsum = readTextFile("src/main/resources/lorem_ipsum.txt");
+		String loremIpsum = readTextFile(INPUT_PATH + "lorem_ipsum.txt");
 		System.out.println("\n*** CLEAR TEXT DOCUMENT ***");
 		System.out.println(loremIpsum);
 
@@ -58,8 +59,8 @@ public class Main {
 
 		// Save document and signature to ZIP
 		zipUtil = new ZipUtils("output");
-		zipUtil.addFileToZip(new File("src/main/resources/lorem_ipsum.txt"));
-		File signatureFile = new File("target/lorem_ipsum.txt.sig");
+		zipUtil.addFileToZip(new File(INPUT_PATH + "lorem_ipsum.txt"));
+		File signatureFile = new File(OUTPUT_PATH + "lorem_ipsum.txt.sig");
 		writeTextToFile(new String(keystore.getDocumentSignature()), signatureFile);
 		zipUtil.addFileToZip(signatureFile);
 		zipUtil.closeZip();
