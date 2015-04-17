@@ -24,7 +24,7 @@ import org.apache.commons.io.FileUtils;
 
 public class Main {
 
-	public static final String INPUT_PATH = "input/", OUTPUT_PATH = System.getProperty("user.dir") + "/";
+	public static final String INPUT_PATH = "input/", OUTPUT_PATH = System.getProperty("user.dir") + "/target/";
 	private static SignatureUtilImpl keystore;
 	private static ZipUtils zipUtil;
 
