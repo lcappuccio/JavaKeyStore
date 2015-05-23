@@ -9,7 +9,7 @@
  * All rights reserved.
  *
  */
-package com.scytl.javakeystore.pojo;
+package com.scytl.javakeystore.test;
 
 import com.scytl.javakeystore.impl.SignatureUtilImpl;
 import com.scytl.javakeystore.exception.SignatureUtilException;
