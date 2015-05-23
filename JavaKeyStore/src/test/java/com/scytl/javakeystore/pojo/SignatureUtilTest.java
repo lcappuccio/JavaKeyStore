@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class SignatureUtilTest {
 
-	SignatureUtilImpl sut;
+	private SignatureUtilImpl sut;
 
 	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
 	public void throwExceptionNotExistingFile() throws SignatureUtilException {
