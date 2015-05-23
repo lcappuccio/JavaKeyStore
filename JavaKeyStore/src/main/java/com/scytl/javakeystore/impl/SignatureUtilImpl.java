@@ -55,7 +55,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 		ArrayList<String> certificateAliases = new ArrayList();
 		this.publicKeys = new ArrayList();
 		// Initialize keyStore
-		openKeyStore(keyStorePath, new String(keyStorePasswd));
+		openKeyStore(keyStorePath, keyStorePasswd);
 		// Load certificates
 		try {
 			Enumeration enumeration = keyStore.aliases();
@@ -80,11 +80,11 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 * @param keyStorePath
 	 * @param keyStorePasswd
 	 */
-	private void openKeyStore(String keyStorePath, String keyStorePasswd) throws SignatureUtilException {
+	private void openKeyStore(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException {
 		try {
 			keyStore = KeyStore.getInstance("jks");
 			inputStream = new FileInputStream(new File(keyStorePath));
-			keyStore.load(inputStream, keyStorePasswd.toCharArray());
+			keyStore.load(inputStream, new String(keyStorePasswd).toCharArray());
 		} catch (NoSuchAlgorithmException | CertificateException | KeyStoreException | IOException ex) {
 			throw new SignatureUtilException(ex.getMessage());
 		} finally {
