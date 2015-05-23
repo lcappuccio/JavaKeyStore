@@ -16,14 +16,14 @@ public interface SignatureUtil {
 	 * @param keyPasswd
 	 * @throws SignatureUtilException
 	 */
-	public void useKey(String keyAlias, char[] keyPasswd) throws SignatureUtilException;
+	void useKey(String keyAlias, char[] keyPasswd) throws SignatureUtilException;
 
 	/**
 	 *
 	 * @param document
 	 * @throws SignatureUtilException
 	 */
-	public void signDocument(String document) throws SignatureUtilException;
+	void signDocument(String document) throws SignatureUtilException;
 
 	/**
 	 *
@@ -32,6 +32,6 @@ public interface SignatureUtil {
 	 * @return
 	 * @throws SignatureUtilException
 	 */
-	public Boolean verifySign(String document, byte[] documentSignature) throws SignatureUtilException;
+	Boolean verifySign(String document, byte[] documentSignature) throws SignatureUtilException;
 
 }
