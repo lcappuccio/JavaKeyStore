@@ -36,10 +36,8 @@ public class SignatureUtilImpl implements SignatureUtil {
 
 	private KeyStore keyStore;
 	private final Signature signature;
-	private final ArrayList<Certificate> certificates;
 	private final ArrayList<PublicKey> publicKeys;
 	private PrivateKey privateKey;
-	private final ArrayList<String> certificateAliases;
 	private byte[] byteSignature;
 	private final static String algorithm = "SHA256withRSA";
 	private final static int signatureSize = 256;
@@ -53,8 +51,8 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 * @throws SignatureUtilException
 	 */
 	public SignatureUtilImpl(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException {
-		this.certificates = new ArrayList();
-		this.certificateAliases = new ArrayList();
+		ArrayList<Certificate> certificates = new ArrayList();
+		ArrayList<String> certificateAliases = new ArrayList();
 		this.publicKeys = new ArrayList();
 		// Initialize keyStore
 		openKeyStore(keyStorePath, new String(keyStorePasswd));

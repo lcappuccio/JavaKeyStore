@@ -24,9 +24,8 @@ import org.apache.commons.io.FileUtils;
 
 public class Main {
 
-	public static final String INPUT_PATH = "input/", OUTPUT_PATH = System.getProperty("user.dir") + "/target/";
-	private static SignatureUtilImpl keystore;
-	private static ZipUtils zipUtil;
+	private static final String INPUT_PATH = "input/";
+	public static final String OUTPUT_PATH = System.getProperty("user.dir") + "/target/";
 
 	public static void main(String[] args) throws IOException, SignatureUtilException {
 
@@ -34,7 +33,7 @@ public class Main {
 		byte[] keyStorePasswd = "rcpxrcpx".getBytes();
 
 		// Create keystore
-		keystore = new SignatureUtilImpl(keyStorePath, keyStorePasswd);
+		SignatureUtilImpl keystore = new SignatureUtilImpl(keyStorePath, keyStorePasswd);
 
 		// Select private key
 		String keyAlias = "client";
@@ -58,7 +57,7 @@ public class Main {
 		assert (keystore.verifySign("Falsified document", keystore.getDocumentSignature()) == false);
 
 		// Save document and signature to ZIP
-		zipUtil = new ZipUtils("output");
+		ZipUtils zipUtil = new ZipUtils();
 		zipUtil.addFileToZip(new File(INPUT_PATH + "lorem_ipsum.txt"));
 		File signatureFile = new File(OUTPUT_PATH + "lorem_ipsum.txt.sig");
 		writeTextToFile(new String(keystore.getDocumentSignature()), signatureFile);
@@ -74,7 +73,7 @@ public class Main {
 	 * @throws UnsupportedEncodingException
 	 * @throws IOException
 	 */
-	private static String readTextFile(String fileName) throws UnsupportedEncodingException, IOException {
+	private static String readTextFile(String fileName) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(fileName));
 		return new String(encoded, "UTF8");
 	}
@@ -86,7 +85,7 @@ public class Main {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private static void writeTextToFile(String text, File fileName) throws FileNotFoundException, IOException {
+	private static void writeTextToFile(String text, File fileName) throws IOException {
 		FileUtils.writeStringToFile(fileName, text);
 	}
 }
