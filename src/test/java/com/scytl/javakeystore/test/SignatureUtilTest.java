@@ -9,14 +9,16 @@
  * All rights reserved.
  *
  */
-package com.scytl.javakeystore.pojo;
+package com.scytl.javakeystore.test;
 
-import com.scytl.javakeystore.impl.SignatureUtilImpl;
 import com.scytl.javakeystore.exception.SignatureUtilException;
+import com.scytl.javakeystore.impl.SignatureUtilImpl;
+import org.junit.Test;
+
 import java.util.Arrays;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 
 public class SignatureUtilTest {
 
