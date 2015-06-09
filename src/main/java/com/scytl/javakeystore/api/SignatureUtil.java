@@ -1,8 +1,6 @@
 /**
- *
  * @author leo
  * @date 10/04/2015 22:42
- *
  */
 package com.scytl.javakeystore.api;
 

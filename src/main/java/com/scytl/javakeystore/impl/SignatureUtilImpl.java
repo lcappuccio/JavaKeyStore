@@ -3,28 +3,20 @@
  *
  * @author lcappuccio
  * @date 08/04/2015 12:20
- *
+ * <p>
  * Copyright (C) 2015 Scytl Secure Electronic Voting SA
- *
+ * <p>
  * All rights reserved.
- *
  */
 package com.scytl.javakeystore.impl;
 
 import com.scytl.javakeystore.api.SignatureUtil;
 import com.scytl.javakeystore.exception.SignatureUtilException;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Signature;
-import java.security.SignatureException;
-import java.security.UnrecoverableKeyException;
+import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
@@ -34,13 +26,13 @@ import java.util.logging.Logger;
 
 public class SignatureUtilImpl implements SignatureUtil {
 
-	private KeyStore keyStore;
-	private final Signature signature;
-	private final ArrayList<PublicKey> publicKeys;
-	private PrivateKey privateKey;
-	private byte[] byteSignature;
 	private final static String algorithm = "SHA256withRSA";
 	private final static int signatureSize = 256;
+	private final Signature signature;
+	private final ArrayList<PublicKey> publicKeys;
+	private KeyStore keyStore;
+	private PrivateKey privateKey;
+	private byte[] byteSignature;
 	private FileInputStream inputStream;
 
 	/**
