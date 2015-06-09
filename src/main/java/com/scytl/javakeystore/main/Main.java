@@ -56,7 +56,7 @@ public class Main {
 		// Negative case
 		System.out.println("Falsified document signature is valid: " + keystore.verifySign("Falsified document",
 				keystore.getDocumentSignature()));
-		assert (keystore.verifySign("Falsified document", keystore.getDocumentSignature()) == false);
+		assert (!keystore.verifySign("Falsified document", keystore.getDocumentSignature()));
 
 		// Save document and signature to ZIP
 		ZipUtils zipUtil = new ZipUtils();
