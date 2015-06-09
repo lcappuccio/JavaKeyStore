@@ -3,18 +3,21 @@
  *
  * @author lcappuccio
  * @date 09/04/2015 12:12
- *
+ * <p>
  * Copyright (C) 2015 Scytl Secure Electronic Voting SA
- *
+ * <p>
  * All rights reserved.
- *
  */
 package com.scytl.javakeystore.test;
 
 import com.scytl.javakeystore.exception.SignatureUtilException;
 import com.scytl.javakeystore.impl.SignatureUtilImpl;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertFalse;
@@ -23,6 +26,15 @@ import static org.junit.Assert.assertTrue;
 public class SignatureUtilTest {
 
 	private SignatureUtilImpl sut;
+	private final static String keyStore = "client.jks";
+	private static String keyStorePath;
+
+	@BeforeClass
+	public static void setUp() throws URISyntaxException {
+		URL keyStoreURL = ClassLoader.getSystemResource(keyStore);
+		File keyStoreFile = new File(keyStoreURL.toURI());
+		keyStorePath = keyStoreFile.getAbsolutePath();
+	}
 
 	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
 	public void throwExceptionNotExistingFile() throws SignatureUtilException {
@@ -31,12 +43,12 @@ public class SignatureUtilTest {
 
 	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
 	public void wrongKeyStorePasswordException() throws SignatureUtilException {
-		sut = new SignatureUtilImpl("src/test/resources/client.jks", "abc".getBytes());
+		sut = new SignatureUtilImpl(keyStorePath, "abc".getBytes());
 	}
 
 	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
 	public void nonExistingKeyAliasDisplaysError() throws SignatureUtilException {
-		sut = new SignatureUtilImpl("src/test/resources/client.jks", "rcpxrcpx".getBytes());
+		sut = new SignatureUtilImpl(keyStorePath, "rcpxrcpx".getBytes());
 		// Select private key
 		String keyAlias = "some_missing_key_alias";
 		char[] keyPasswd = "some_nonexisting_pwd".toCharArray();
@@ -85,7 +97,7 @@ public class SignatureUtilTest {
 	 * @throws SignatureUtilException
 	 */
 	private void buildEffectiveSut() throws SignatureUtilException {
-		sut = new SignatureUtilImpl("src/test/resources/client.jks", "rcpxrcpx".getBytes());
+		sut = new SignatureUtilImpl(keyStorePath, "rcpxrcpx".getBytes());
 		// Select private key
 		String keyAlias = "client";
 		char[] keyPasswd = "rcpx".toCharArray();
