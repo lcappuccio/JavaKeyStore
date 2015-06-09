@@ -3,24 +3,24 @@
  *
  * @author lcappuccio
  * @date 07/04/2015 17:25
- *
+ * <p>
  * Copyright (C) 2015 Scytl Secure Electronic Voting SA
- *
+ * <p>
  * All rights reserved.
- *
  */
 package com.scytl.javakeystore.main;
 
 import com.scytl.javakeystore.exception.SignatureUtilException;
 import com.scytl.javakeystore.impl.SignatureUtilImpl;
 import com.scytl.javakeystore.pojo.ZipUtils;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import org.apache.commons.io.FileUtils;
 
 public class Main {
 
@@ -50,10 +50,12 @@ public class Main {
 
 		// Verify signature
 		System.out.println("\n*** VERIFY SIGNATURE ***");
-		System.out.println("Document signature is valid: " + keystore.verifySign(loremIpsum, keystore.getDocumentSignature()));
+		System.out.println("Document signature is valid: " + keystore.verifySign(loremIpsum, keystore
+				.getDocumentSignature()));
 		assert (keystore.verifySign(loremIpsum, keystore.getDocumentSignature()));
 		// Negative case
-		System.out.println("Falsified document signature is valid: " + keystore.verifySign("Falsified document", keystore.getDocumentSignature()));
+		System.out.println("Falsified document signature is valid: " + keystore.verifySign("Falsified document",
+				keystore.getDocumentSignature()));
 		assert (keystore.verifySign("Falsified document", keystore.getDocumentSignature()) == false);
 
 		// Save document and signature to ZIP
