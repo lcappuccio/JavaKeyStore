@@ -91,13 +91,6 @@ public class SignatureUtilImpl implements SignatureUtil {
 		}
 	}
 
-	/**
-	 * Preselects a private key in the jks
-	 *
-	 * @param keyAlias  the key alias
-	 * @param keyPasswd the key password
-	 * @throws SignatureUtilException
-	 */
 	@Override
 	public void useKey(String keyAlias, char[] keyPasswd) throws SignatureUtilException {
 		logger.info("Using key " + keyAlias);
@@ -112,12 +105,6 @@ public class SignatureUtilImpl implements SignatureUtil {
 		}
 	}
 
-	/**
-	 * Initializes the signature object that will be used to verify against the external file signature
-	 *
-	 * @param document the document to be signed
-	 * @throws SignatureUtilException
-	 */
 	@Override
 	public void signDocument(String document) throws SignatureUtilException {
 		logger.info("Signing document");
@@ -134,14 +121,6 @@ public class SignatureUtilImpl implements SignatureUtil {
 		}
 	}
 
-	/**
-	 * Verifies the signature in the external file against the one obtained by the document/key pair
-	 *
-	 * @param document          the document to verify
-	 * @param documentSignature the signature of the document
-	 * @return a boolean of the verification
-	 * @throws SignatureUtilException
-	 */
 	@Override
 	public Boolean verifySign(String document, byte[] documentSignature) throws SignatureUtilException {
 		logger.info("Asked to verify document signature");
@@ -165,7 +144,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 	}
 
 	/**
-	 * @return
+	 * @return the document signature
 	 */
 	public byte[] getDocumentSignature() {
 		return byteSignature;

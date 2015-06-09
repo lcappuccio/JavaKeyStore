@@ -29,7 +29,7 @@ public class ZipUtils {
 
 	/**
 	 *
-	 * @param fileName
+	 * @param fileName the file to be added to the zip
 	 * @throws IOException
 	 */
 	public void addFileToZip(File fileName) throws IOException {
