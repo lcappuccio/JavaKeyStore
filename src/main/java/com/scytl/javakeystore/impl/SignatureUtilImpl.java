@@ -22,8 +22,6 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class SignatureUtilImpl implements SignatureUtil {
 
@@ -75,6 +73,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 * @param keyStorePasswd the keystore password
 	 */
 	private void openKeyStore(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException {
+		logger.info("Opening " + keyStorePath);
 		try {
 			keyStore = KeyStore.getInstance("jks");
 			inputStream = new FileInputStream(new File(keyStorePath));
@@ -86,7 +85,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 				try {
 					inputStream.close();
 				} catch (IOException ex) {
-					Logger.getLogger(SignatureUtilImpl.class.getName()).log(Level.SEVERE, null, ex);
+					logger.error(ex.getMessage(), ex);
 				}
 			}
 		}
@@ -101,6 +100,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 */
 	@Override
 	public void useKey(String keyAlias, char[] keyPasswd) throws SignatureUtilException {
+		logger.info("Using key " + keyAlias);
 		try {
 			privateKey = (PrivateKey) keyStore.getKey(keyAlias, keyPasswd);
 			if (privateKey == null) {
@@ -120,10 +120,10 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 */
 	@Override
 	public void signDocument(String document) throws SignatureUtilException {
+		logger.info("Signing document");
 		if (document == null) {
 			exceptionHandler(new SignatureUtilException("Trying to sign a null document"), "Trying to sign a null " +
 					"document");
-
 		}
 		try {
 			signature.initSign(privateKey);
@@ -144,6 +144,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 */
 	@Override
 	public Boolean verifySign(String document, byte[] documentSignature) throws SignatureUtilException {
+		logger.info("Asked to verify document signature");
 		if (documentSignature.length != signatureSize) {
 			exceptionHandler(new SignatureUtilException("Invalid signature size: " + documentSignature.length),
 					"Invalid signature size: " + documentSignature.length);
