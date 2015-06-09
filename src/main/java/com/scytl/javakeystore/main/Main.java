@@ -56,7 +56,7 @@ public class Main {
 		// Negative case
 		System.out.println("Falsified document signature is valid: " + keystore.verifySign("Falsified document",
 				keystore.getDocumentSignature()));
-		assert (keystore.verifySign("Falsified document", keystore.getDocumentSignature()) == false);
+		assert (!keystore.verifySign("Falsified document", keystore.getDocumentSignature()));
 
 		// Save document and signature to ZIP
 		ZipUtils zipUtil = new ZipUtils();
@@ -70,8 +70,8 @@ public class Main {
 
 	/**
 	 *
-	 * @param fileName
-	 * @return
+	 * @param fileName the source file to read
+	 * @return the document as string
 	 * @throws UnsupportedEncodingException
 	 * @throws IOException
 	 */
@@ -82,8 +82,8 @@ public class Main {
 
 	/**
 	 *
-	 * @param text
-	 * @param fileName
+	 * @param text the text document
+	 * @param fileName the destination filename
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */

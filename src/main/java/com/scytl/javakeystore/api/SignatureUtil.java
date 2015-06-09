@@ -10,24 +10,24 @@ public interface SignatureUtil {
 
 	/**
 	 *
-	 * @param keyAlias
-	 * @param keyPasswd
+	 * @param keyAlias the key alias
+	 * @param keyPasswd the key password
 	 * @throws SignatureUtilException
 	 */
 	void useKey(String keyAlias, char[] keyPasswd) throws SignatureUtilException;
 
 	/**
 	 *
-	 * @param document
+	 * @param document the document to sign
 	 * @throws SignatureUtilException
 	 */
 	void signDocument(String document) throws SignatureUtilException;
 
 	/**
 	 *
-	 * @param document
-	 * @param documentSignature
-	 * @return
+	 * @param document the document to verify
+	 * @param documentSignature the signature to verify
+	 * @return the signature verification status
 	 * @throws SignatureUtilException
 	 */
 	Boolean verifySign(String document, byte[] documentSignature) throws SignatureUtilException;
