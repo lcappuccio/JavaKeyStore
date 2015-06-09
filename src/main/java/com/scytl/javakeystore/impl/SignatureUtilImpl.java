@@ -12,6 +12,7 @@ package com.scytl.javakeystore.impl;
 
 import com.scytl.javakeystore.api.SignatureUtil;
 import com.scytl.javakeystore.exception.SignatureUtilException;
+import org.systemexception.logger.impl.LoggerImpl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,9 +27,11 @@ import java.util.logging.Logger;
 
 public class SignatureUtilImpl implements SignatureUtil {
 
+	private final static org.systemexception.logger.api.Logger logger = LoggerImpl.getFor(SignatureUtilImpl
+			.class);
 	private final static String algorithm = "SHA256withRSA";
 	private final static int signatureSize = 256;
-	private final Signature signature;
+	private Signature signature;
 	private final ArrayList<PublicKey> publicKeys;
 	private KeyStore keyStore;
 	private PrivateKey privateKey;
@@ -38,8 +41,8 @@ public class SignatureUtilImpl implements SignatureUtil {
 	/**
 	 * Initializes the object with a path to java key store and its password, see shell script to create the jks
 	 *
-	 * @param keyStorePath
-	 * @param keyStorePasswd
+	 * @param keyStorePath   the keystore path
+	 * @param keyStorePasswd the keystore password
 	 * @throws SignatureUtilException
 	 */
 	public SignatureUtilImpl(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException {
@@ -63,14 +66,13 @@ public class SignatureUtilImpl implements SignatureUtil {
 			}
 		} catch (KeyStoreException | NoSuchAlgorithmException ex) {
 			// Not testable because exceptions come not injectable/hardcoded variables
-			throw new SignatureUtilException(ex.getMessage());
+			exceptionHandler(ex, ex.getMessage());
 		}
 	}
 
 	/**
-	 *
-	 * @param keyStorePath
-	 * @param keyStorePasswd
+	 * @param keyStorePath   the keystore path
+	 * @param keyStorePasswd the keystore password
 	 */
 	private void openKeyStore(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException {
 		try {
@@ -78,7 +80,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 			inputStream = new FileInputStream(new File(keyStorePath));
 			keyStore.load(inputStream, new String(keyStorePasswd).toCharArray());
 		} catch (NoSuchAlgorithmException | CertificateException | KeyStoreException | IOException ex) {
-			throw new SignatureUtilException(ex.getMessage());
+			exceptionHandler(ex, ex.getMessage());
 		} finally {
 			if (inputStream != null) {
 				try {
@@ -93,8 +95,8 @@ public class SignatureUtilImpl implements SignatureUtil {
 	/**
 	 * Preselects a private key in the jks
 	 *
-	 * @param keyAlias
-	 * @param keyPasswd
+	 * @param keyAlias  the key alias
+	 * @param keyPasswd the key password
 	 * @throws SignatureUtilException
 	 */
 	@Override
@@ -102,7 +104,8 @@ public class SignatureUtilImpl implements SignatureUtil {
 		try {
 			privateKey = (PrivateKey) keyStore.getKey(keyAlias, keyPasswd);
 			if (privateKey == null) {
-				throw new SignatureUtilException("No such key in keystore");
+				exceptionHandler(new SignatureUtilException("Trying to sign a null document"), "Trying to sign a null" +
+						" document");
 			}
 		} catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException ex) {
 			throw new SignatureUtilException(ex.getMessage());
@@ -112,13 +115,15 @@ public class SignatureUtilImpl implements SignatureUtil {
 	/**
 	 * Initializes the signature object that will be used to verify against the external file signature
 	 *
-	 * @param document
+	 * @param document the document to be signed
 	 * @throws SignatureUtilException
 	 */
 	@Override
 	public void signDocument(String document) throws SignatureUtilException {
 		if (document == null) {
-			throw new SignatureUtilException("Trying to sign a null document");
+			exceptionHandler(new SignatureUtilException("Trying to sign a null document"), "Trying to sign a null " +
+					"document");
+
 		}
 		try {
 			signature.initSign(privateKey);
@@ -132,15 +137,16 @@ public class SignatureUtilImpl implements SignatureUtil {
 	/**
 	 * Verifies the signature in the external file against the one obtained by the document/key pair
 	 *
-	 * @param document
-	 * @param documentSignature
-	 * @return
+	 * @param document          the document to verify
+	 * @param documentSignature the signature of the document
+	 * @return a boolean of the verification
 	 * @throws SignatureUtilException
 	 */
 	@Override
 	public Boolean verifySign(String document, byte[] documentSignature) throws SignatureUtilException {
 		if (documentSignature.length != signatureSize) {
-			throw new SignatureUtilException("Invalid signature size: " + documentSignature.length);
+			exceptionHandler(new SignatureUtilException("Invalid signature size: " + documentSignature.length),
+					"Invalid signature size: " + documentSignature.length);
 		}
 		try {
 			for (PublicKey publicKey : publicKeys) {
@@ -152,15 +158,26 @@ public class SignatureUtilImpl implements SignatureUtil {
 			}
 			return false;
 		} catch (InvalidKeyException | SignatureException ex) {
-			throw new SignatureUtilException(ex.getMessage());
+			exceptionHandler(ex, ex.getMessage());
 		}
+		return false;
 	}
 
 	/**
-	 *
 	 * @return
 	 */
 	public byte[] getDocumentSignature() {
 		return byteSignature;
+	}
+
+	/**
+	 * Handle exception
+	 *
+	 * @param exception the exception
+	 * @param message   the message of the exception
+	 */
+	private void exceptionHandler(Exception exception, String message) throws SignatureUtilException {
+		logger.error(message, exception);
+		throw new SignatureUtilException(exception.getMessage());
 	}
 }
