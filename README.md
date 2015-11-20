@@ -1,7 +1,13 @@
 #JavaKeyStore
 Basic Security Stuff
 
-[![Build Status](https://travis-ci.org/lcappuccio/JavaKeyStore.svg?branch=master)](https://travis-ci.org/lcappuccio/JavaKeyStore)
+**Master**
+
+[![Build Status](https://travis-ci.org/lcappuccio/java-keystore.svg?branch=master)](https://travis-ci.org/lcappuccio/java-keystore)
+
+**Develop**
+
+[![Build Status](https://travis-ci.org/lcappuccio/java-keystore.svg?branch=develop)](https://travis-ci.org/lcappuccio/java-keystore)
 
 ##Installation
 Run the shell script and generate the root key and the key that will be signed by the root key. Create the keystore with this key in it.
