@@ -36,17 +36,17 @@ public class SignatureUtilTest {
 		keyStorePath = keyStoreFile.getAbsolutePath();
 	}
 
-	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
+	@Test(expected = SignatureUtilException.class)
 	public void throwExceptionNotExistingFile() throws SignatureUtilException {
 		sut = new SignatureUtilImpl("abc", "somepassword".getBytes());
 	}
 
-	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
+	@Test(expected = SignatureUtilException.class)
 	public void wrongKeyStorePasswordException() throws SignatureUtilException {
 		sut = new SignatureUtilImpl(keyStorePath, "abc".getBytes());
 	}
 
-	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
+	@Test(expected = SignatureUtilException.class)
 	public void nonExistingKeyAliasDisplaysError() throws SignatureUtilException {
 		sut = new SignatureUtilImpl(keyStorePath, "rcpxrcpx".getBytes());
 		// Select private key
@@ -55,14 +55,14 @@ public class SignatureUtilTest {
 		sut.useKey(keyAlias, keyPasswd);
 	}
 
-	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
+	@Test(expected = SignatureUtilException.class)
 	public void askToSignNullDocumentThrowsException() throws SignatureUtilException {
 		buildEffectiveSut();
 		// Sign the document with the preselected key
 		sut.signDocument(null);
 	}
 
-	@Test(expected = com.scytl.javakeystore.exception.SignatureUtilException.class)
+	@Test(expected = SignatureUtilException.class)
 	public void throwExceptionOnBadSignature() throws SignatureUtilException {
 		buildEffectiveSut();
 		// Sign the document with the preselected key

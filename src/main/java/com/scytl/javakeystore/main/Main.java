@@ -65,7 +65,6 @@ public class Main {
 		writeTextToFile(new String(keystore.getDocumentSignature()), signatureFile);
 		zipUtil.addFileToZip(signatureFile);
 		zipUtil.closeZip();
-		System.exit(0);
 	}
 
 	/**

@@ -17,18 +17,19 @@ import java.net.URL;
  */
 public class ZipUtilsTest {
 
+	private final static String TEST_FILE = Main.OUTPUT_PATH + "output.zip";
 	private ZipUtils sut;
 
 	@Before
-	public void setup() throws IOException {
-		File zipOutput = new File(Main.OUTPUT_PATH + "output.zip");
+	public void setUp() throws IOException {
+		File zipOutput = new File(TEST_FILE);
 		zipOutput.delete();
 		sut = new ZipUtils();
 	}
 
 	@After
 	public void tearDown() throws IOException {
-		File zipOutput = new File(Main.OUTPUT_PATH + "output.zip");
+		File zipOutput = new File(TEST_FILE);
 		zipOutput.delete();
 		sut.closeZip();
 	}
@@ -39,7 +40,7 @@ public class ZipUtilsTest {
 		URL keyStoreURL = ClassLoader.getSystemResource("lorem_ipsum.txt");
 		File keyStoreFile = new File(keyStoreURL.toURI());
 		sut.addFileToZip(keyStoreFile);
-
+		assert(new File(TEST_FILE).exists());
 	}
 
 }
