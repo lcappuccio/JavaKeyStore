@@ -21,10 +21,11 @@ public class ZipUtils {
 	private final ZipOutputStream zipOutput;
 	private final byte[] buffer;
 
-	public ZipUtils() throws FileNotFoundException {
+	public ZipUtils() throws IOException {
 		this.buffer = new byte[1024];
 		FileOutputStream fos = new FileOutputStream(Main.OUTPUT_PATH + "output" + ".zip");
 		zipOutput = new ZipOutputStream(fos);
+		fos.close();
 	}
 
 	/**
