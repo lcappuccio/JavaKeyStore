@@ -83,6 +83,15 @@ public class SignatureUtilTest {
 	}
 
 	@Test
+	public void askToVerifyDocumentWithBadSignature() throws SignatureUtilException {
+		buildEffectiveSut();
+		// Sign the document with the preselected key
+		String testDocument = "some text document";
+		sut.signDocument(testDocument);
+		assertFalse(sut.verifySign(testDocument, new byte[256]));
+	}
+
+	@Test
 	public void askToVerifyTamperedDocument() throws SignatureUtilException {
 		buildEffectiveSut();
 		// Sign the document with the preselected key
