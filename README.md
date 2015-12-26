@@ -5,6 +5,7 @@ Basic Security Stuff
 
 [![Build Status](https://travis-ci.org/lcappuccio/java-keystore.svg?branch=master)](https://travis-ci.org/lcappuccio/java-keystore)
 [![codecov.io](https://codecov.io/github/lcappuccio/java-keystore/coverage.svg?branch=master)](https://codecov.io/github/lcappuccio/java-keystore?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/0790c624be0c45c2ab481c307e294f93)](https://www.codacy.com/app/leo_4/java-keystore)
 
 **Develop**
 
