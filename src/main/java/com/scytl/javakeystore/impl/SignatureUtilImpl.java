@@ -12,6 +12,7 @@ package com.scytl.javakeystore.impl;
 
 import com.scytl.javakeystore.api.SignatureUtil;
 import com.scytl.javakeystore.exception.SignatureUtilException;
+import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
 
 import java.io.File;
@@ -25,10 +26,9 @@ import java.util.Enumeration;
 
 public class SignatureUtilImpl implements SignatureUtil {
 
-	private final static org.systemexception.logger.api.Logger logger = LoggerImpl.getFor(SignatureUtilImpl
-			.class);
-	private final static String algorithm = "SHA256withRSA";
-	private final static int signatureSize = 256;
+	private final static Logger logger = LoggerImpl.getFor(SignatureUtilImpl.class);
+	private final String algorithm = "SHA256withRSA";
+	private final int signatureSize = 256;
 	private Signature signature;
 	private final ArrayList<PublicKey> publicKeys;
 	private KeyStore keyStore;
@@ -97,8 +97,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 		try {
 			privateKey = (PrivateKey) keyStore.getKey(keyAlias, keyPasswd);
 			if (privateKey == null) {
-				exceptionHandler(new SignatureUtilException("Trying to sign a null document"), "Trying to sign a null" +
-						" document");
+				exceptionHandler(new SignatureUtilException("Bad key"), "Bad key");
 			}
 		} catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException ex) {
 			throw new SignatureUtilException(ex.getMessage());
@@ -136,7 +135,6 @@ public class SignatureUtilImpl implements SignatureUtil {
 					return true;
 				}
 			}
-			return false;
 		} catch (InvalidKeyException | SignatureException ex) {
 			exceptionHandler(ex, ex.getMessage());
 		}
