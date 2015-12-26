@@ -23,9 +23,8 @@ public class ZipUtils {
 
 	public ZipUtils() throws IOException {
 		this.buffer = new byte[1024];
-		FileOutputStream fos = new FileOutputStream(Main.OUTPUT_PATH + "output" + ".zip");
+		FileOutputStream fos = new FileOutputStream(Main.OUTPUT_PATH + "output.zip");
 		zipOutput = new ZipOutputStream(fos);
-		fos.close();
 	}
 
 	/**
