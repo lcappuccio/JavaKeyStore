@@ -97,8 +97,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 		try {
 			privateKey = (PrivateKey) keyStore.getKey(keyAlias, keyPasswd);
 			if (privateKey == null) {
-				exceptionHandler(new SignatureUtilException("Trying to sign a null document"), "Trying to sign a null" +
-						" document");
+				exceptionHandler(new SignatureUtilException("Bad key"), "Bad key");
 			}
 		} catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException ex) {
 			throw new SignatureUtilException(ex.getMessage());
