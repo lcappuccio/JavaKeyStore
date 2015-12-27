@@ -108,8 +108,8 @@ public class SignatureUtilImpl implements SignatureUtil {
 	public void signDocument(String document) throws SignatureUtilException {
 		logger.info("Signing document");
 		if (document == null) {
-			exceptionHandler(new SignatureUtilException("Trying to sign a null document"), "Trying to sign a null " +
-					"document");
+			exceptionHandler(new SignatureUtilException("Trying to sign a null document"),
+					"Trying to sign a null document");
 		}
 		try {
 			signature.initSign(privateKey);
