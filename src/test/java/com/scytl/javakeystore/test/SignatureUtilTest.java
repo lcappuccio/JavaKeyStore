@@ -73,6 +73,15 @@ public class SignatureUtilTest {
 		sut.verifySign(testDocument, Arrays.copyOf(testSignature, testSignature.length - 5));
 	}
 
+	@Test(expected = SignatureUtilException.class)
+	public void throwExceptionOnBadKeyPassword() throws SignatureUtilException {
+		sut = new SignatureUtilImpl(keyStorePath, "rcpxrcpx".getBytes());
+		// Select private key
+		String keyAlias = "client";
+		char[] keyPasswd = "rcpx_WRONG".toCharArray();
+		sut.useKey(keyAlias, keyPasswd);
+	}
+
 	@Test
 	public void askToVerifyDocument() throws SignatureUtilException {
 		buildEffectiveSut();
