@@ -34,7 +34,6 @@ public class SignatureUtilImpl implements SignatureUtil {
 	private KeyStore keyStore;
 	private PrivateKey privateKey;
 	private byte[] byteSignature;
-	private FileInputStream inputStream;
 
 	/**
 	 * Initializes the object with a path to java key store and its password, see shell script to create the jks
@@ -73,6 +72,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 * @param keyStorePasswd the keystore password
 	 */
 	private void openKeyStore(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException {
+		FileInputStream inputStream = null;
 		logger.info("Opening " + keyStorePath);
 		try {
 			keyStore = KeyStore.getInstance("jks");
