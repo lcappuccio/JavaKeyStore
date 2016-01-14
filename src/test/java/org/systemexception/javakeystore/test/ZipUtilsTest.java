@@ -1,7 +1,7 @@
-package com.scytl.javakeystore.test;
+package org.systemexception.javakeystore.test;
 
-import com.scytl.javakeystore.main.Main;
-import com.scytl.javakeystore.pojo.ZipUtils;
+import org.systemexception.javakeystore.main.Main;
+import org.systemexception.javakeystore.pojo.ZipUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

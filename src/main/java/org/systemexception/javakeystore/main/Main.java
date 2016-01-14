@@ -8,11 +8,11 @@
  * <p>
  * All rights reserved.
  */
-package com.scytl.javakeystore.main;
+package org.systemexception.javakeystore.main;
 
-import com.scytl.javakeystore.exception.SignatureUtilException;
-import com.scytl.javakeystore.impl.SignatureUtilImpl;
-import com.scytl.javakeystore.pojo.ZipUtils;
+import org.systemexception.javakeystore.exception.SignatureUtilException;
+import org.systemexception.javakeystore.impl.SignatureUtilImpl;
+import org.systemexception.javakeystore.pojo.ZipUtils;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

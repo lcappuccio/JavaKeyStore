@@ -8,7 +8,7 @@
  * <p>
  * All rights reserved.
  */
-package com.scytl.javakeystore.exception;
+package org.systemexception.javakeystore.exception;
 
 public class SignatureUtilException extends Exception {
 

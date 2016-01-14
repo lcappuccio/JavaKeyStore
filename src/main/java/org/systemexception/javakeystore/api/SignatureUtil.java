@@ -2,9 +2,9 @@
  * @author leo
  * @date 10/04/2015 22:42
  */
-package com.scytl.javakeystore.api;
+package org.systemexception.javakeystore.api;
 
-import com.scytl.javakeystore.exception.SignatureUtilException;
+import org.systemexception.javakeystore.exception.SignatureUtilException;
 
 public interface SignatureUtil {
 

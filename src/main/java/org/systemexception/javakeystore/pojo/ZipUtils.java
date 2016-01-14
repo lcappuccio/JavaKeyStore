@@ -8,9 +8,9 @@
  * <p>
  * All rights reserved.
  */
-package com.scytl.javakeystore.pojo;
+package org.systemexception.javakeystore.pojo;
 
-import com.scytl.javakeystore.main.Main;
+import org.systemexception.javakeystore.main.Main;
 
 import java.io.*;
 import java.util.zip.ZipEntry;
