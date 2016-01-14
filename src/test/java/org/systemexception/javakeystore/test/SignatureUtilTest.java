@@ -1,17 +1,11 @@
 /**
- * $Id$
- *
  * @author lcappuccio
  * @date 09/04/2015 12:12
- * <p>
- * Copyright (C) 2015 Scytl Secure Electronic Voting SA
- * <p>
- * All rights reserved.
  */
-package com.scytl.javakeystore.test;
+package org.systemexception.javakeystore.test;
 
-import com.scytl.javakeystore.exception.SignatureUtilException;
-import com.scytl.javakeystore.impl.SignatureUtilImpl;
+import org.systemexception.javakeystore.exception.SignatureUtilException;
+import org.systemexception.javakeystore.impl.SignatureUtilImpl;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

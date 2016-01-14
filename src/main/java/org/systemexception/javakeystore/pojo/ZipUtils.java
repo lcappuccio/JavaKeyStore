@@ -1,16 +1,10 @@
 /**
- * $Id$
- *
  * @author lcappuccio
  * @date 08/04/2015 16:11
- * <p>
- * Copyright (C) 2015 Scytl Secure Electronic Voting SA
- * <p>
- * All rights reserved.
  */
-package com.scytl.javakeystore.pojo;
+package org.systemexception.javakeystore.pojo;
 
-import com.scytl.javakeystore.main.Main;
+import org.systemexception.javakeystore.main.Main;
 
 import java.io.*;
 import java.util.zip.ZipEntry;
@@ -28,7 +22,6 @@ public class ZipUtils {
 	}
 
 	/**
-	 *
 	 * @param fileName the file to be added to the zip
 	 * @throws IOException
 	 */
@@ -45,7 +38,6 @@ public class ZipUtils {
 	}
 
 	/**
-	 *
 	 * @throws IOException
 	 */
 	public void closeZip() throws IOException {

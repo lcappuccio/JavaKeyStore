@@ -1,7 +1,7 @@
-package com.scytl.javakeystore.test;
+package org.systemexception.javakeystore.test;
 
-import com.scytl.javakeystore.main.Main;
-import com.scytl.javakeystore.pojo.ZipUtils;
+import org.systemexception.javakeystore.main.Main;
+import org.systemexception.javakeystore.pojo.ZipUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class ZipUtilsTest {
 		URL keyStoreURL = ClassLoader.getSystemResource("lorem_ipsum.txt");
 		File keyStoreFile = new File(keyStoreURL.toURI());
 		sut.addFileToZip(keyStoreFile);
-		assert(new File(TEST_FILE).exists());
+		assert (new File(TEST_FILE).exists());
 	}
 
 }

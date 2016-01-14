@@ -1,19 +1,13 @@
 /**
- * $Id$
- *
  * @author lcappuccio
  * @date 08/04/2015 12:20
- * <p>
- * Copyright (C) 2015 Scytl Secure Electronic Voting SA
- * <p>
- * All rights reserved.
  */
-package com.scytl.javakeystore.impl;
+package org.systemexception.javakeystore.impl;
 
-import com.scytl.javakeystore.api.SignatureUtil;
-import com.scytl.javakeystore.exception.SignatureUtilException;
-import org.systemexception.logger.api.Logger;
-import org.systemexception.logger.impl.LoggerImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.systemexception.javakeystore.api.SignatureUtil;
+import org.systemexception.javakeystore.exception.SignatureUtilException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,7 +20,7 @@ import java.util.Enumeration;
 
 public class SignatureUtilImpl implements SignatureUtil {
 
-	private final static Logger logger = LoggerImpl.getFor(SignatureUtilImpl.class);
+	private final static Logger logger = LogManager.getLogger(SignatureUtilImpl.class);
 	private final String algorithm = "SHA256withRSA";
 	private final int signatureSize = 256;
 	private Signature signature;
