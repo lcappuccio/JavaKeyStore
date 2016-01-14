@@ -40,7 +40,7 @@ public class ZipUtilsTest {
 		URL keyStoreURL = ClassLoader.getSystemResource("lorem_ipsum.txt");
 		File keyStoreFile = new File(keyStoreURL.toURI());
 		sut.addFileToZip(keyStoreFile);
-		assert(new File(TEST_FILE).exists());
+		assert (new File(TEST_FILE).exists());
 	}
 
 }

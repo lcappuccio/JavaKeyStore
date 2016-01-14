@@ -9,23 +9,20 @@ import org.systemexception.javakeystore.exception.SignatureUtilException;
 public interface SignatureUtil {
 
 	/**
-	 *
-	 * @param keyAlias the key alias
+	 * @param keyAlias  the key alias
 	 * @param keyPasswd the key password
 	 * @throws SignatureUtilException
 	 */
 	void useKey(String keyAlias, char[] keyPasswd) throws SignatureUtilException;
 
 	/**
-	 *
 	 * @param document the document to sign
 	 * @throws SignatureUtilException
 	 */
 	void signDocument(String document) throws SignatureUtilException;
 
 	/**
-	 *
-	 * @param document the document to verify
+	 * @param document          the document to verify
 	 * @param documentSignature the signature to verify
 	 * @return the signature verification status
 	 * @throws SignatureUtilException

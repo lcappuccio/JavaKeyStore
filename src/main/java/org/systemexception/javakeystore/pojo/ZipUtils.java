@@ -22,7 +22,6 @@ public class ZipUtils {
 	}
 
 	/**
-	 *
 	 * @param fileName the file to be added to the zip
 	 * @throws IOException
 	 */
@@ -39,7 +38,6 @@ public class ZipUtils {
 	}
 
 	/**
-	 *
 	 * @throws IOException
 	 */
 	public void closeZip() throws IOException {

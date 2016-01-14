@@ -62,7 +62,6 @@ public class Main {
 	}
 
 	/**
-	 *
 	 * @param fileName the source file to read
 	 * @return the document as string
 	 * @throws UnsupportedEncodingException
@@ -74,8 +73,7 @@ public class Main {
 	}
 
 	/**
-	 *
-	 * @param text the text document
+	 * @param text     the text document
 	 * @param fileName the destination filename
 	 * @throws FileNotFoundException
 	 * @throws IOException
