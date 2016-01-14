@@ -1,12 +1,6 @@
 /**
- * $Id$
- *
  * @author lcappuccio
  * @date 07/04/2015 17:25
- * <p>
- * Copyright (C) 2015 Scytl Secure Electronic Voting SA
- * <p>
- * All rights reserved.
  */
 package org.systemexception.javakeystore.main;
 
