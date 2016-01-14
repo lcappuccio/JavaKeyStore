@@ -2,30 +2,27 @@
  * @author leo
  * @date 10/04/2015 22:42
  */
-package com.scytl.javakeystore.api;
+package org.systemexception.javakeystore.api;
 
-import com.scytl.javakeystore.exception.SignatureUtilException;
+import org.systemexception.javakeystore.exception.SignatureUtilException;
 
 public interface SignatureUtil {
 
 	/**
-	 *
-	 * @param keyAlias the key alias
+	 * @param keyAlias  the key alias
 	 * @param keyPasswd the key password
 	 * @throws SignatureUtilException
 	 */
 	void useKey(String keyAlias, char[] keyPasswd) throws SignatureUtilException;
 
 	/**
-	 *
 	 * @param document the document to sign
 	 * @throws SignatureUtilException
 	 */
 	void signDocument(String document) throws SignatureUtilException;
 
 	/**
-	 *
-	 * @param document the document to verify
+	 * @param document          the document to verify
 	 * @param documentSignature the signature to verify
 	 * @return the signature verification status
 	 * @throws SignatureUtilException

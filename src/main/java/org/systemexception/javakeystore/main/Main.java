@@ -1,18 +1,12 @@
 /**
- * $Id$
- *
  * @author lcappuccio
  * @date 07/04/2015 17:25
- * <p>
- * Copyright (C) 2015 Scytl Secure Electronic Voting SA
- * <p>
- * All rights reserved.
  */
-package com.scytl.javakeystore.main;
+package org.systemexception.javakeystore.main;
 
-import com.scytl.javakeystore.exception.SignatureUtilException;
-import com.scytl.javakeystore.impl.SignatureUtilImpl;
-import com.scytl.javakeystore.pojo.ZipUtils;
+import org.systemexception.javakeystore.exception.SignatureUtilException;
+import org.systemexception.javakeystore.impl.SignatureUtilImpl;
+import org.systemexception.javakeystore.pojo.ZipUtils;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -68,7 +62,6 @@ public class Main {
 	}
 
 	/**
-	 *
 	 * @param fileName the source file to read
 	 * @return the document as string
 	 * @throws UnsupportedEncodingException
@@ -80,8 +73,7 @@ public class Main {
 	}
 
 	/**
-	 *
-	 * @param text the text document
+	 * @param text     the text document
 	 * @param fileName the destination filename
 	 * @throws FileNotFoundException
 	 * @throws IOException
