@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -35,13 +36,13 @@ public class SignatureUtilTest {
 		keyStorePath = keyStoreFile.getAbsolutePath();
 	}
 
-	@Test(expected = SignatureUtilException.class)
+	@Test(expected = FileNotFoundException.class)
 	public void throwExceptionNotExistingFile() throws SignatureUtilException, NoSuchAlgorithmException,
 			KeyStoreException, IOException {
 		sut = new SignatureUtilImpl("abc", "somepassword".getBytes());
 	}
 
-	@Test(expected = SignatureUtilException.class)
+	@Test(expected = IOException.class)
 	public void wrongKeyStorePasswordException() throws SignatureUtilException, NoSuchAlgorithmException,
 			KeyStoreException, IOException {
 		sut = new SignatureUtilImpl(keyStorePath, "abc".getBytes());
