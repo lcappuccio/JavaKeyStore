@@ -36,28 +36,24 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 * @param keyStorePasswd the keystore password
 	 * @throws SignatureUtilException
 	 */
-	public SignatureUtilImpl(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException {
+	public SignatureUtilImpl(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException,
+			NoSuchAlgorithmException, KeyStoreException, IOException {
 		ArrayList<Certificate> certificates = new ArrayList();
 		ArrayList<String> certificateAliases = new ArrayList();
 		this.publicKeys = new ArrayList();
 		// Initialize keyStore
 		openKeyStore(keyStorePath, keyStorePasswd);
 		// Load certificates
-		try {
-			Enumeration enumeration = keyStore.aliases();
-			while (enumeration.hasMoreElements()) {
-				String alias = (String) enumeration.nextElement();
-				certificateAliases.add(alias);
-				certificates.add(keyStore.getCertificate(alias));
-			}
-			// Initialize signature and load certificates/public keys
-			signature = Signature.getInstance(algorithm);
-			for (Certificate certificate : certificates) {
-				publicKeys.add(certificate.getPublicKey());
-			}
-		} catch (KeyStoreException | NoSuchAlgorithmException ex) {
-			// Not testable because exceptions come not injectable/hardcoded variables
-			exceptionHandler(ex, ex.getMessage());
+		Enumeration enumeration = keyStore.aliases();
+		while (enumeration.hasMoreElements()) {
+			String alias = (String) enumeration.nextElement();
+			certificateAliases.add(alias);
+			certificates.add(keyStore.getCertificate(alias));
+		}
+		// Initialize signature and load certificates/public keys
+		signature = Signature.getInstance(algorithm);
+		for (Certificate certificate : certificates) {
+			publicKeys.add(certificate.getPublicKey());
 		}
 	}
 
@@ -65,7 +61,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 * @param keyStorePath   the keystore path
 	 * @param keyStorePasswd the keystore password
 	 */
-	private void openKeyStore(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException {
+	private void openKeyStore(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException, IOException {
 		FileInputStream inputStream = null;
 		logger.info("Opening " + keyStorePath);
 		try {
@@ -76,11 +72,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 			exceptionHandler(ex, ex.getMessage());
 		} finally {
 			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (IOException ex) {
-					logger.error(ex.getMessage(), ex);
-				}
+				inputStream.close();
 			}
 		}
 	}
@@ -99,38 +91,31 @@ public class SignatureUtilImpl implements SignatureUtil {
 	}
 
 	@Override
-	public void signDocument(String document) throws SignatureUtilException {
+	public void signDocument(String document) throws SignatureUtilException, InvalidKeyException, SignatureException {
 		logger.info("Signing document");
 		if (document == null) {
 			exceptionHandler(new SignatureUtilException("Trying to sign a null document"),
 					"Trying to sign a null document");
 		}
-		try {
-			signature.initSign(privateKey);
-			signature.update(document.getBytes());
-			byteSignature = signature.sign();
-		} catch (InvalidKeyException | SignatureException ex) {
-			throw new SignatureUtilException(ex.getMessage());
-		}
+		signature.initSign(privateKey);
+		signature.update(document.getBytes());
+		byteSignature = signature.sign();
 	}
 
 	@Override
-	public Boolean verifySign(String document, byte[] documentSignature) throws SignatureUtilException {
+	public Boolean verifySign(String document, byte[] documentSignature) throws SignatureUtilException,
+			InvalidKeyException, SignatureException {
 		logger.info("Asked to verify document signature");
 		if (documentSignature.length != signatureSize) {
 			exceptionHandler(new SignatureUtilException("Invalid signature size: " + documentSignature.length),
 					"Invalid signature size: " + documentSignature.length);
 		}
-		try {
-			for (PublicKey publicKey : publicKeys) {
-				signature.initVerify(publicKey);
-				signature.update(document.getBytes());
-				if (signature.verify(documentSignature)) {
-					return true;
-				}
+		for (PublicKey publicKey : publicKeys) {
+			signature.initVerify(publicKey);
+			signature.update(document.getBytes());
+			if (signature.verify(documentSignature)) {
+				return true;
 			}
-		} catch (InvalidKeyException | SignatureException ex) {
-			exceptionHandler(ex, ex.getMessage());
 		}
 		return false;
 	}
