@@ -18,6 +18,7 @@ import java.security.InvalidKeyException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
+import java.security.cert.CertificateException;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertFalse;
@@ -38,19 +39,19 @@ public class SignatureUtilTest {
 
 	@Test(expected = FileNotFoundException.class)
 	public void throwExceptionNotExistingFile() throws SignatureUtilException, NoSuchAlgorithmException,
-			KeyStoreException, IOException {
+			KeyStoreException, IOException, CertificateException {
 		sut = new SignatureUtilImpl("abc", "somepassword".getBytes());
 	}
 
 	@Test(expected = IOException.class)
 	public void wrongKeyStorePasswordException() throws SignatureUtilException, NoSuchAlgorithmException,
-			KeyStoreException, IOException {
+			KeyStoreException, IOException, CertificateException {
 		sut = new SignatureUtilImpl(keyStorePath, "abc".getBytes());
 	}
 
 	@Test(expected = SignatureUtilException.class)
 	public void nonExistingKeyAliasDisplaysError() throws SignatureUtilException, NoSuchAlgorithmException,
-			KeyStoreException, IOException {
+			KeyStoreException, IOException, CertificateException {
 		sut = new SignatureUtilImpl(keyStorePath, "rcpxrcpx".getBytes());
 		// Select private key
 		String keyAlias = "some_missing_key_alias";
@@ -79,7 +80,7 @@ public class SignatureUtilTest {
 
 	@Test(expected = SignatureUtilException.class)
 	public void throwExceptionOnBadKeyPassword() throws SignatureUtilException, NoSuchAlgorithmException,
-			KeyStoreException, IOException {
+			KeyStoreException, IOException, CertificateException {
 		sut = new SignatureUtilImpl(keyStorePath, "rcpxrcpx".getBytes());
 		// Select private key
 		String keyAlias = "client";
@@ -123,7 +124,7 @@ public class SignatureUtilTest {
 	private void buildEffectiveSut() throws SignatureUtilException {
 		try {
 			sut = new SignatureUtilImpl(keyStorePath, "rcpxrcpx".getBytes());
-		} catch (NoSuchAlgorithmException | KeyStoreException | IOException e) {
+		} catch (NoSuchAlgorithmException | KeyStoreException | CertificateException | IOException e) {
 			e.printStackTrace();
 		}
 		// Select private key

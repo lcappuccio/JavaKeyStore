@@ -37,7 +37,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 * @throws SignatureUtilException
 	 */
 	public SignatureUtilImpl(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException,
-			NoSuchAlgorithmException, KeyStoreException, IOException {
+			NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException {
 		ArrayList<Certificate> certificates = new ArrayList();
 		ArrayList<String> certificateAliases = new ArrayList();
 		this.publicKeys = new ArrayList();
@@ -61,19 +61,15 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 * @param keyStorePath   the keystore path
 	 * @param keyStorePasswd the keystore password
 	 */
-	private void openKeyStore(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException, IOException {
+	private void openKeyStore(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException, IOException,
+			KeyStoreException, CertificateException, NoSuchAlgorithmException {
 		FileInputStream inputStream = null;
 		logger.info("Opening " + keyStorePath);
-		try {
-			keyStore = KeyStore.getInstance("jks");
-			inputStream = new FileInputStream(new File(keyStorePath));
-			keyStore.load(inputStream, new String(keyStorePasswd).toCharArray());
-		} catch (NoSuchAlgorithmException | CertificateException | KeyStoreException ex) {
-			exceptionHandler(ex, ex.getMessage());
-		} finally {
-			if (inputStream != null) {
-				inputStream.close();
-			}
+		keyStore = KeyStore.getInstance("jks");
+		inputStream = new FileInputStream(new File(keyStorePath));
+		keyStore.load(inputStream, new String(keyStorePasswd).toCharArray());
+		if (inputStream != null) {
+			inputStream.close();
 		}
 	}
 
