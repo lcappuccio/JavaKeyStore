@@ -15,13 +15,19 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
+import java.security.cert.CertificateException;
 
 public class Main {
 
 	private static final String INPUT_PATH = "input/";
 	public static final String OUTPUT_PATH = System.getProperty("user.dir") + "/target/";
 
-	public static void main(String[] args) throws IOException, SignatureUtilException {
+	public static void main(String[] args) throws IOException, SignatureUtilException, KeyStoreException,
+			NoSuchAlgorithmException, SignatureException, InvalidKeyException, CertificateException {
 
 		String keyStorePath = INPUT_PATH + "client.jks";
 		byte[] keyStorePasswd = "rcpxrcpx".getBytes();
