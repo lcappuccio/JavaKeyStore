@@ -73,6 +73,9 @@ public class SignatureUtilImpl implements SignatureUtil {
 		inputStream.close();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void useKey(String keyAlias, char[] keyPasswd) throws SignatureUtilException {
 		logger.info("Using key " + keyAlias);
@@ -86,6 +89,9 @@ public class SignatureUtilImpl implements SignatureUtil {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void signDocument(String document) throws SignatureUtilException, InvalidKeyException, SignatureException {
 		logger.info("Signing document");
@@ -98,6 +104,9 @@ public class SignatureUtilImpl implements SignatureUtil {
 		byteSignature = signature.sign();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Boolean verifySign(String document, byte[] documentSignature) throws SignatureUtilException,
 			InvalidKeyException, SignatureException {
