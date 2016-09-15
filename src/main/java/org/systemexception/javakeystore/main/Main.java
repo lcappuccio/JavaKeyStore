@@ -43,9 +43,8 @@ public class Main {
 		SignatureUtilImpl keystore = new SignatureUtilImpl(keyStorePath, keyStorePasswd);
 
 		// Select private key
-		String keyAlias = KEY_ALIAS;
 		char[] keyPasswd = KEY_PASSWORD.toCharArray();
-		keystore.useKey(keyAlias, keyPasswd);
+		keystore.useKey(KEY_ALIAS, keyPasswd);
 
 		// Read a document
 		String loremIpsum = readTextFile(INPUT_PATH + File.separator + INPUT_FILE);
