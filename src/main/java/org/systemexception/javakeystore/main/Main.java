@@ -4,10 +4,10 @@
  */
 package org.systemexception.javakeystore.main;
 
+import org.apache.commons.io.FileUtils;
 import org.systemexception.javakeystore.exception.SignatureUtilException;
 import org.systemexception.javakeystore.impl.SignatureUtilImpl;
 import org.systemexception.javakeystore.pojo.ZipUtils;
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,25 +23,32 @@ import java.security.cert.CertificateException;
 
 public class Main {
 
-	private static final String INPUT_PATH = "input/";
-	public static final String OUTPUT_PATH = System.getProperty("user.dir") + "/target/";
+	private static final String INPUT_PATH = "input";
+	public static final String INPUT_FILE = "lorem_ipsum.txt";
+	public static final String OUTPUT_PATH = System.getProperty("user.dir") + File.separator + "target" +
+			File.separator;
+	public static final String KEY_STORE = "client.jks";
+	public static final String KEY_STORE_PASSWORD = "rcpxrcpx";
+	public static final String KEY_ALIAS = "client";
+	private static final String KEY_PASSWORD = "rcpx";
+	private static final String FALSIFIED_TAMPERED_DOCUMENT = "Falsified document";
 
 	public static void main(String[] args) throws IOException, SignatureUtilException, KeyStoreException,
 			NoSuchAlgorithmException, SignatureException, InvalidKeyException, CertificateException {
 
-		String keyStorePath = INPUT_PATH + "client.jks";
-		byte[] keyStorePasswd = "rcpxrcpx".getBytes();
+		String keyStorePath = INPUT_PATH + File.separator + KEY_STORE;
+		byte[] keyStorePasswd = KEY_STORE_PASSWORD.getBytes();
 
 		// Create keystore
 		SignatureUtilImpl keystore = new SignatureUtilImpl(keyStorePath, keyStorePasswd);
 
 		// Select private key
-		String keyAlias = "client";
-		char[] keyPasswd = "rcpx".toCharArray();
+		String keyAlias = KEY_ALIAS;
+		char[] keyPasswd = KEY_PASSWORD.toCharArray();
 		keystore.useKey(keyAlias, keyPasswd);
 
 		// Read a document
-		String loremIpsum = readTextFile(INPUT_PATH + "lorem_ipsum.txt");
+		String loremIpsum = readTextFile(INPUT_PATH + File.separator + INPUT_FILE);
 		System.out.println("\n*** CLEAR TEXT DOCUMENT ***");
 		System.out.println(loremIpsum);
 
@@ -54,13 +61,13 @@ public class Main {
 				.getDocumentSignature()));
 		assert (keystore.verifySign(loremIpsum, keystore.getDocumentSignature()));
 		// Negative case
-		System.out.println("Falsified document signature is valid: " + keystore.verifySign("Falsified document",
+		System.out.println("Falsified document signature is valid: " + keystore.verifySign(FALSIFIED_TAMPERED_DOCUMENT,
 				keystore.getDocumentSignature()));
-		assert (!keystore.verifySign("Falsified document", keystore.getDocumentSignature()));
+		assert (!keystore.verifySign(FALSIFIED_TAMPERED_DOCUMENT, keystore.getDocumentSignature()));
 
 		// Save document and signature to ZIP
 		ZipUtils zipUtil = new ZipUtils();
-		zipUtil.addFileToZip(new File(INPUT_PATH + "lorem_ipsum.txt"));
+		zipUtil.addFileToZip(new File(INPUT_PATH + File.separator + INPUT_FILE));
 		File signatureFile = new File(OUTPUT_PATH + "lorem_ipsum.txt.sig");
 		writeTextToFile(new String(keystore.getDocumentSignature()), signatureFile);
 		zipUtil.addFileToZip(signatureFile);

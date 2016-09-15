@@ -14,10 +14,11 @@ public class ZipUtils {
 
 	private final ZipOutputStream zipOutput;
 	private final byte[] buffer;
+	public static final String OUTPUT_FILE = "output.zip";
 
 	public ZipUtils() throws IOException {
 		this.buffer = new byte[1024];
-		FileOutputStream fos = new FileOutputStream(Main.OUTPUT_PATH + "output.zip");
+		FileOutputStream fos = new FileOutputStream(Main.OUTPUT_PATH + OUTPUT_FILE);
 		zipOutput = new ZipOutputStream(fos);
 	}
 

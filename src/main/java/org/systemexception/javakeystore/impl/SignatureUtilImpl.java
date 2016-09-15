@@ -39,7 +39,6 @@ public class SignatureUtilImpl implements SignatureUtil {
 	public SignatureUtilImpl(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException,
 			NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException {
 		ArrayList<Certificate> certificates = new ArrayList();
-		ArrayList<String> certificateAliases = new ArrayList();
 		this.publicKeys = new ArrayList();
 		// Initialize keyStore
 		openKeyStore(keyStorePath, keyStorePasswd);
@@ -47,7 +46,6 @@ public class SignatureUtilImpl implements SignatureUtil {
 		Enumeration enumeration = keyStore.aliases();
 		while (enumeration.hasMoreElements()) {
 			String alias = (String) enumeration.nextElement();
-			certificateAliases.add(alias);
 			certificates.add(keyStore.getCertificate(alias));
 		}
 		// Initialize signature and load certificates/public keys
@@ -61,7 +59,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 * @param keyStorePath   the keystore path
 	 * @param keyStorePasswd the keystore password
 	 */
-	private void openKeyStore(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException, IOException,
+	private void openKeyStore(String keyStorePath, byte[] keyStorePasswd) throws IOException,
 			KeyStoreException, CertificateException, NoSuchAlgorithmException {
 		FileInputStream inputStream = null;
 		logger.info("Opening " + keyStorePath);
@@ -90,8 +88,8 @@ public class SignatureUtilImpl implements SignatureUtil {
 	public void signDocument(String document) throws SignatureUtilException, InvalidKeyException, SignatureException {
 		logger.info("Signing document");
 		if (document == null) {
-			exceptionHandler(new SignatureUtilException("Trying to sign a null document"),
-					"Trying to sign a null document");
+			String errorMessage = "Trying to sign a null document";
+			exceptionHandler(new SignatureUtilException(errorMessage), errorMessage);
 		}
 		signature.initSign(privateKey);
 		signature.update(document.getBytes());
@@ -103,8 +101,9 @@ public class SignatureUtilImpl implements SignatureUtil {
 			InvalidKeyException, SignatureException {
 		logger.info("Asked to verify document signature");
 		if (documentSignature.length != signatureSize) {
-			exceptionHandler(new SignatureUtilException("Invalid signature size: " + documentSignature.length),
-					"Invalid signature size: " + documentSignature.length);
+			String errorMessage = "Invalid signature size: ";
+			exceptionHandler(new SignatureUtilException(errorMessage + documentSignature.length),
+					errorMessage + documentSignature.length);
 		}
 		for (PublicKey publicKey : publicKeys) {
 			signature.initVerify(publicKey);
