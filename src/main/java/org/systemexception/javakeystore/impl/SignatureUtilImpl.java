@@ -32,9 +32,13 @@ public class SignatureUtilImpl implements SignatureUtil {
 	/**
 	 * Initializes the object with a path to java key store and its password, see shell script to create the jks
 	 *
-	 * @param keyStorePath   the keystore path
-	 * @param keyStorePasswd the keystore password
+	 * @param keyStorePath
+	 * @param keyStorePasswd
 	 * @throws SignatureUtilException
+	 * @throws NoSuchAlgorithmException
+	 * @throws KeyStoreException
+	 * @throws IOException
+	 * @throws CertificateException
 	 */
 	public SignatureUtilImpl(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException,
 			NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException {
@@ -90,7 +94,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 			exceptionHandler(new SignatureUtilException(errorMessage), errorMessage);
 		}
 		signature.initSign(privateKey);
-		signature.update(document.getBytes());
+		signature.update(document != null ? document.getBytes() : new byte[0]);
 		byteSignature = signature.sign();
 	}
 
