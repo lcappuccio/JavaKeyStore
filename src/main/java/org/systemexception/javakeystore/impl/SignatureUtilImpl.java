@@ -66,9 +66,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 		keyStore = KeyStore.getInstance("jks");
 		inputStream = new FileInputStream(new File(keyStorePath));
 		keyStore.load(inputStream, new String(keyStorePasswd).toCharArray());
-		if (inputStream != null) {
-			inputStream.close();
-		}
+		inputStream.close();
 	}
 
 	@Override
