@@ -40,8 +40,8 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 * @throws IOException
 	 * @throws CertificateException
 	 */
-	public SignatureUtilImpl(String keyStorePath, byte[] keyStorePasswd) throws SignatureUtilException,
-			NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException {
+	public SignatureUtilImpl(String keyStorePath, byte[] keyStorePasswd) throws NoSuchAlgorithmException,
+			KeyStoreException, IOException, CertificateException {
 		ArrayList<Certificate> certificates = new ArrayList();
 		this.publicKeys = new ArrayList();
 		// Initialize keyStore
