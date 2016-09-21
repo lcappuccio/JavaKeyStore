@@ -34,7 +34,6 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 *
 	 * @param keyStorePath
 	 * @param keyStorePasswd
-	 * @throws SignatureUtilException
 	 * @throws NoSuchAlgorithmException
 	 * @throws KeyStoreException
 	 * @throws IOException
