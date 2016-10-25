@@ -17,7 +17,7 @@ import java.net.URL;
  */
 public class ZipUtilsTest {
 
-	private final static String TEST_FILE = Main.OUTPUT_PATH + "output.zip";
+	private final static String TEST_FILE = Main.OUTPUT_PATH + ZipUtils.OUTPUT_FILE;
 	private ZipUtils sut;
 
 	@Before
@@ -37,7 +37,7 @@ public class ZipUtilsTest {
 	@Test
 	public void add_file_to_zip() throws IOException, URISyntaxException {
 		sut = new ZipUtils();
-		URL keyStoreURL = ClassLoader.getSystemResource("lorem_ipsum.txt");
+		URL keyStoreURL = ClassLoader.getSystemResource(Main.INPUT_FILE);
 		File keyStoreFile = new File(keyStoreURL.toURI());
 		sut.addFileToZip(keyStoreFile);
 		assert (new File(TEST_FILE).exists());
