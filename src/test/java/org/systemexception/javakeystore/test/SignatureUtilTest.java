@@ -39,13 +39,13 @@ public class SignatureUtilTest {
 	}
 
 	@Test(expected = FileNotFoundException.class)
-	public void throwExceptionNotExistingFile() throws SignatureUtilException, NoSuchAlgorithmException,
+	public void throwExceptionNotExistingFile() throws NoSuchAlgorithmException,
 			KeyStoreException, IOException, CertificateException {
 		sut = new SignatureUtilImpl("abc", "somepassword".getBytes());
 	}
 
 	@Test(expected = IOException.class)
-	public void wrongKeyStorePasswordException() throws SignatureUtilException, NoSuchAlgorithmException,
+	public void wrongKeyStorePasswordException() throws NoSuchAlgorithmException,
 			KeyStoreException, IOException, CertificateException {
 		sut = new SignatureUtilImpl(keyStorePath, "abc".getBytes());
 	}
