@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.InvalidKeyException;
@@ -81,7 +82,7 @@ public class Main {
 	 */
 	private static String readTextFile(String fileName) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(fileName));
-		return new String(encoded, "UTF8");
+		return new String(encoded, StandardCharsets.UTF_8);
 	}
 
 	/**

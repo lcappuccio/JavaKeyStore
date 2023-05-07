@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.systemexception.javakeystore.api.SignatureUtil;
 import org.systemexception.javakeystore.exception.SignatureUtilException;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.*;
@@ -23,7 +22,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 	private final static Logger logger = LogManager.getLogger(SignatureUtilImpl.class);
 	private final String algorithm = "SHA256withRSA";
 	private final int signatureSize = 256;
-	private Signature signature;
+	private final Signature signature;
 	private final ArrayList<PublicKey> publicKeys;
 	private KeyStore keyStore;
 	private PrivateKey privateKey;
@@ -41,14 +40,14 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 */
 	public SignatureUtilImpl(String keyStorePath, byte[] keyStorePasswd) throws NoSuchAlgorithmException,
 			KeyStoreException, IOException, CertificateException {
-		ArrayList<Certificate> certificates = new ArrayList();
-		this.publicKeys = new ArrayList();
+		ArrayList<Certificate> certificates = new ArrayList<>();
+		this.publicKeys = new ArrayList<>();
 		// Initialize keyStore
 		openKeyStore(keyStorePath, keyStorePasswd);
 		// Load certificates
-		Enumeration enumeration = keyStore.aliases();
+		Enumeration<String> enumeration = keyStore.aliases();
 		while (enumeration.hasMoreElements()) {
-			String alias = (String) enumeration.nextElement();
+			String alias = enumeration.nextElement();
 			certificates.add(keyStore.getCertificate(alias));
 		}
 		// Initialize signature and load certificates/public keys
@@ -67,7 +66,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 		FileInputStream inputStream;
 		logger.info("Opening " + keyStorePath);
 		keyStore = KeyStore.getInstance("jks");
-		inputStream = new FileInputStream(new File(keyStorePath));
+		inputStream = new FileInputStream(keyStorePath);
 		keyStore.load(inputStream, new String(keyStorePasswd).toCharArray());
 		inputStream.close();
 	}

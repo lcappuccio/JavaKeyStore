@@ -40,16 +40,12 @@ public class SignatureUtilTest {
 
 	@Test
 	void throwExceptionNotExistingFile() {
-        assertThrows(FileNotFoundException.class, () -> {
-            sut = new SignatureUtilImpl("abc", "somepassword".getBytes());
-        });
+        assertThrows(FileNotFoundException.class, () -> sut = new SignatureUtilImpl("abc", "somepassword".getBytes()));
 	}
 
 	@Test
 	void wrongKeyStorePasswordException() {
-        assertThrows(IOException.class, () -> {
-            sut = new SignatureUtilImpl(keyStorePath, "abc".getBytes());
-        });
+        assertThrows(IOException.class, () -> sut = new SignatureUtilImpl(keyStorePath, "abc".getBytes()));
 		
 	}
 
