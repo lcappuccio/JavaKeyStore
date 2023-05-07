@@ -65,7 +65,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 	private void openKeyStore(String keyStorePath, byte[] keyStorePasswd) throws IOException,
 			KeyStoreException, CertificateException, NoSuchAlgorithmException {
 		FileInputStream inputStream;
-		logger.info("Opening {0}", keyStorePath);
+		logger.info("Opening {}", keyStorePath);
 		keyStore = KeyStore.getInstance("jks");
 		inputStream = new FileInputStream(keyStorePath);
 		keyStore.load(inputStream, new String(keyStorePasswd).toCharArray());
@@ -77,7 +77,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 	 */
 	@Override
 	public void useKey(String keyAlias, char[] keyPasswd) throws SignatureUtilException {
-		logger.info("Using key {0}", keyAlias);
+		logger.info("Using key {}", keyAlias);
 		try {
 			privateKey = (PrivateKey) keyStore.getKey(keyAlias, keyPasswd);
 			if (privateKey == null) {
