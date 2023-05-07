@@ -16,6 +16,7 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Objects;
 
 public class SignatureUtilImpl implements SignatureUtil {
 
@@ -98,7 +99,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 			exceptionHandler(new SignatureUtilException(errorMessage), errorMessage);
 		}
 		signature.initSign(privateKey);
-		signature.update(document != null ? document.getBytes() : new byte[0]);
+		signature.update(Objects.requireNonNull(document).getBytes());
 		byteSignature = signature.sign();
 	}
 
