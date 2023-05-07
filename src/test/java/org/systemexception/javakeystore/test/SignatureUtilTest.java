@@ -62,21 +62,20 @@ public class SignatureUtilTest {
 	}
 
 	@Test
-	void askToSignNullDocumentThrowsException() {
+	void askToSignNullDocumentThrowsException() throws SignatureUtilException {
+        buildEffectiveSut();
         assertThrows(SignatureUtilException.class, () -> {
-            buildEffectiveSut();
             // Sign the document with the preselected key
             sut.signDocument(null);
         });
 	}
 
 	@Test
-	void throwExceptionOnBadSignature() {
+	void throwExceptionOnBadSignature() throws SignatureUtilException, SignatureException, InvalidKeyException {
+        String testDocument = SAMPLE_TEXT_DOCUMENT;
+        buildEffectiveSut();
+        sut.signDocument(testDocument);
         assertThrows(SignatureUtilException.class, () -> {
-            buildEffectiveSut();
-            // Sign the document with the preselected key
-            String testDocument = SAMPLE_TEXT_DOCUMENT;
-            sut.signDocument(testDocument);
             // Tamper the signature
             byte[] testSignature = sut.getDocumentSignature();
             sut.verifySign(testDocument, Arrays.copyOf(testSignature, testSignature.length - 5));
