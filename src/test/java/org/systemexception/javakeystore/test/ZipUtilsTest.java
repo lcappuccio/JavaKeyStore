@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author leo
  * @date 26/12/15 13:11
  */
-public class ZipUtilsTest {
+class ZipUtilsTest {
 
 	private final static String TEST_FILE = Main.OUTPUT_PATH + ZipUtils.OUTPUT_FILE;
 	private ZipUtils sut;

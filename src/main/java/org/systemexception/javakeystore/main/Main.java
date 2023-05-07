@@ -5,6 +5,8 @@
 package org.systemexception.javakeystore.main;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.systemexception.javakeystore.exception.SignatureUtilException;
 import org.systemexception.javakeystore.impl.SignatureUtilImpl;
 import org.systemexception.javakeystore.pojo.ZipUtils;
@@ -23,6 +25,8 @@ import java.security.SignatureException;
 import java.security.cert.CertificateException;
 
 public class Main {
+
+    private static final Logger LOGGER = LogManager.getLogger(Main.class.getName());
 
 	private static final String INPUT_PATH = "input";
 	public static final String INPUT_FILE = "lorem_ipsum.txt";
@@ -49,20 +53,20 @@ public class Main {
 
 		// Read a document
 		String loremIpsum = readTextFile(INPUT_PATH + File.separator + INPUT_FILE);
-		System.out.println("\n*** CLEAR TEXT DOCUMENT ***");
-		System.out.println(loremIpsum);
+		LOGGER.info("\n*** CLEAR TEXT DOCUMENT ***");
+        LOGGER.info(loremIpsum);
 
 		// Sign the document with the preselected key
 		keystore.signDocument(loremIpsum);
 
 		// Verify signature
-		System.out.println("\n*** VERIFY SIGNATURE ***");
-		System.out.println("Document signature is valid: " + keystore.verifySign(loremIpsum, keystore
-				.getDocumentSignature()));
+        LOGGER.info("\n*** VERIFY SIGNATURE ***");
+        LOGGER.info("Document signature is valid: {}",
+                keystore.verifySign(loremIpsum, keystore.getDocumentSignature()));
 		assert (keystore.verifySign(loremIpsum, keystore.getDocumentSignature()));
 		// Negative case
-		System.out.println("Falsified document signature is valid: " + keystore.verifySign(FALSIFIED_TAMPERED_DOCUMENT,
-				keystore.getDocumentSignature()));
+		LOGGER.info("Falsified document signature is valid: {}",
+                keystore.verifySign(FALSIFIED_TAMPERED_DOCUMENT, keystore.getDocumentSignature()));
 		assert (!keystore.verifySign(FALSIFIED_TAMPERED_DOCUMENT, keystore.getDocumentSignature()));
 
 		// Save document and signature to ZIP
