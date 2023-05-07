@@ -32,4 +32,9 @@ public interface SignatureUtil {
 	 */
 	Boolean verifySign(String document, byte[] documentSignature) throws SignatureUtilException, InvalidKeyException, SignatureException;
 
+    /**
+     *
+     * @return
+     */
+    byte[] getDocumentSignature();
 }

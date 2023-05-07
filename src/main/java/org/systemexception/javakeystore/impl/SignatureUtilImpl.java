@@ -128,6 +128,7 @@ public class SignatureUtilImpl implements SignatureUtil {
 	/**
 	 * @return the document signature
 	 */
+    @Override
 	public byte[] getDocumentSignature() {
 		return byteSignature;
 	}

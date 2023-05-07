@@ -4,6 +4,7 @@
  */
 package org.systemexception.javakeystore.test;
 
+import org.systemexception.javakeystore.api.SignatureUtil;
 import org.systemexception.javakeystore.exception.SignatureUtilException;
 import org.systemexception.javakeystore.impl.SignatureUtilImpl;
 import org.junit.BeforeClass;
@@ -28,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 public class SignatureUtilTest {
 
 	private static final String SAMPLE_TEXT_DOCUMENT = "some text document";
-	private SignatureUtilImpl sut;
+	private SignatureUtil sut;
 	private static String keyStorePath;
 
 	@BeforeClass
@@ -133,5 +134,4 @@ public class SignatureUtilTest {
 		char[] keyPasswd = "rcpx".toCharArray();
 		sut.useKey(keyAlias, keyPasswd);
 	}
-
 }
