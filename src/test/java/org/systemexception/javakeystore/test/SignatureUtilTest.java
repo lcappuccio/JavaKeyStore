@@ -4,11 +4,11 @@
  */
 package org.systemexception.javakeystore.test;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.systemexception.javakeystore.api.SignatureUtil;
 import org.systemexception.javakeystore.exception.SignatureUtilException;
 import org.systemexception.javakeystore.impl.SignatureUtilImpl;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.systemexception.javakeystore.main.Main;
 
 import java.io.File;
@@ -23,8 +23,7 @@ import java.security.SignatureException;
 import java.security.cert.CertificateException;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SignatureUtilTest {
 
@@ -32,66 +31,76 @@ public class SignatureUtilTest {
 	private SignatureUtil sut;
 	private static String keyStorePath;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUp() throws URISyntaxException {
 		URL keyStoreURL = ClassLoader.getSystemResource(Main.KEY_STORE);
 		File keyStoreFile = new File(keyStoreURL.toURI());
 		keyStorePath = keyStoreFile.getAbsolutePath();
 	}
 
-	@Test(expected = FileNotFoundException.class)
-	public void throwExceptionNotExistingFile() throws NoSuchAlgorithmException,
-			KeyStoreException, IOException, CertificateException {
-		sut = new SignatureUtilImpl("abc", "somepassword".getBytes());
-	}
-
-	@Test(expected = IOException.class)
-	public void wrongKeyStorePasswordException() throws NoSuchAlgorithmException,
-			KeyStoreException, IOException, CertificateException {
-		sut = new SignatureUtilImpl(keyStorePath, "abc".getBytes());
-	}
-
-	@Test(expected = SignatureUtilException.class)
-	public void nonExistingKeyAliasDisplaysError() throws SignatureUtilException, NoSuchAlgorithmException,
-			KeyStoreException, IOException, CertificateException {
-		sut = new SignatureUtilImpl(keyStorePath, Main.KEY_STORE_PASSWORD.getBytes());
-		// Select private key
-		String keyAlias = "some_missing_key_alias";
-		char[] keyPasswd = "some_nonexisting_pwd".toCharArray();
-		sut.useKey(keyAlias, keyPasswd);
-	}
-
-	@Test(expected = SignatureUtilException.class)
-	public void askToSignNullDocumentThrowsException() throws SignatureUtilException, SignatureException,
-			InvalidKeyException {
-		buildEffectiveSut();
-		// Sign the document with the preselected key
-		sut.signDocument(null);
-	}
-
-	@Test(expected = SignatureUtilException.class)
-	public void throwExceptionOnBadSignature() throws SignatureUtilException, SignatureException, InvalidKeyException {
-		buildEffectiveSut();
-		// Sign the document with the preselected key
-		String testDocument = SAMPLE_TEXT_DOCUMENT;
-		sut.signDocument(testDocument);
-		// Tamper the signature
-		byte[] testSignature = sut.getDocumentSignature();
-		sut.verifySign(testDocument, Arrays.copyOf(testSignature, testSignature.length - 5));
-	}
-
-	@Test(expected = SignatureUtilException.class)
-	public void throwExceptionOnBadKeyPassword() throws SignatureUtilException, NoSuchAlgorithmException,
-			KeyStoreException, IOException, CertificateException {
-		sut = new SignatureUtilImpl(keyStorePath, Main.KEY_STORE_PASSWORD.getBytes());
-		// Select private key
-		String keyAlias = Main.KEY_ALIAS;
-		char[] keyPasswd = "rcpx_WRONG".toCharArray();
-		sut.useKey(keyAlias, keyPasswd);
+	@Test
+	void throwExceptionNotExistingFile() {
+        assertThrows(FileNotFoundException.class, () -> {
+            sut = new SignatureUtilImpl("abc", "somepassword".getBytes());
+        });
 	}
 
 	@Test
-	public void askToVerifyDocument() throws SignatureUtilException, SignatureException, InvalidKeyException {
+	void wrongKeyStorePasswordException() {
+        assertThrows(IOException.class, () -> {
+            sut = new SignatureUtilImpl(keyStorePath, "abc".getBytes());
+        });
+		
+	}
+
+	@Test
+	void nonExistingKeyAliasDisplaysError() {
+        assertThrows(SignatureUtilException.class, () -> {
+            sut = new SignatureUtilImpl(keyStorePath, Main.KEY_STORE_PASSWORD.getBytes());
+            // Select private key
+            String keyAlias = "some_missing_key_alias";
+            char[] keyPasswd = "some_nonexisting_pwd".toCharArray();
+            sut.useKey(keyAlias, keyPasswd);
+        });
+		
+	}
+
+	@Test
+	void askToSignNullDocumentThrowsException() {
+        assertThrows(SignatureUtilException.class, () -> {
+            buildEffectiveSut();
+            // Sign the document with the preselected key
+            sut.signDocument(null);
+        });
+	}
+
+	@Test
+	void throwExceptionOnBadSignature() {
+        assertThrows(SignatureUtilException.class, () -> {
+            buildEffectiveSut();
+            // Sign the document with the preselected key
+            String testDocument = SAMPLE_TEXT_DOCUMENT;
+            sut.signDocument(testDocument);
+            // Tamper the signature
+            byte[] testSignature = sut.getDocumentSignature();
+            sut.verifySign(testDocument, Arrays.copyOf(testSignature, testSignature.length - 5));
+        });
+
+	}
+
+	@Test
+	void throwExceptionOnBadKeyPassword() {
+        assertThrows(SignatureUtilException.class, () -> {
+            sut = new SignatureUtilImpl(keyStorePath, Main.KEY_STORE_PASSWORD.getBytes());
+            // Select private key
+            String keyAlias = Main.KEY_ALIAS;
+            char[] keyPasswd = "rcpx_WRONG".toCharArray();
+            sut.useKey(keyAlias, keyPasswd);
+        });
+	}
+
+	@Test
+	void askToVerifyDocument() throws SignatureUtilException, SignatureException, InvalidKeyException {
 		buildEffectiveSut();
 		// Sign the document with the preselected key
 		String testDocument = SAMPLE_TEXT_DOCUMENT;
@@ -100,7 +109,7 @@ public class SignatureUtilTest {
 	}
 
 	@Test
-	public void askToVerifyDocumentWithBadSignature() throws SignatureUtilException, SignatureException,
+	void askToVerifyDocumentWithBadSignature() throws SignatureUtilException, SignatureException,
 			InvalidKeyException {
 		buildEffectiveSut();
 		// Sign the document with the preselected key
@@ -110,7 +119,7 @@ public class SignatureUtilTest {
 	}
 
 	@Test
-	public void askToVerifyTamperedDocument() throws SignatureUtilException, SignatureException, InvalidKeyException {
+	void askToVerifyTamperedDocument() throws SignatureUtilException, SignatureException, InvalidKeyException {
 		buildEffectiveSut();
 		// Sign the document with the preselected key
 		String testDocument = SAMPLE_TEXT_DOCUMENT;
